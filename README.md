@@ -52,6 +52,11 @@ Resets spawn location to null
 `/version`\
 Displays mod version
 
+# Known issues/bugs
+All teleportation in this mod requires the player to relog,
+since they get kicked for moving too fast. This is an issue with
+the current version of FoxLoader, and I may manually fix this in a future release.
+
 # Info for mod developers
 `Container.updateInventory` is overwritten by this mod,\
 keep this in mind if you are writing mixins for this method
