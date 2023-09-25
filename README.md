@@ -1,4 +1,7 @@
 # KivaServerUtils
+
+![Example chat](images/chatexample.png)
+
 ## Features
 Improved player chat, with colors, nicknames and pronouns aswell as red usernames for OP players\
 Adds spawn and home commands\
@@ -6,8 +9,6 @@ Improved logging for chests and crates, see items being taken/added\
 Fixes 100% CPU usage on 1 core\
 Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates.\
 Improved logging for players throwing dynamite
-
-![Example chat](images/chatexample.png)
 
 ## Commands
 `/home`\
