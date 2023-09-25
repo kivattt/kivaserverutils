@@ -7,7 +7,7 @@ Fixes 100% CPU usage on 1 core\
 Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates.\
 Improved logging for players throwing dynamite
 
-![Example chat](/images/examplechat.png)
+![Example chat](images/chatexample.png)
 
 ## Commands
 `/home`\
