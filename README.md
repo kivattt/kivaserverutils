@@ -9,7 +9,7 @@ Improved logging for players throwing dynamite
 
 ## Commands
 `/home`\
-Teleport to home
+Teleport to home (If home exists)
 
 `/sethome`\
 Sets your home location
@@ -49,7 +49,7 @@ Teleport to coordinate
 `/spawnreset` (OP-only command)\
 Resets spawn location to null
 
-`/version`\
+`/kivaversion`\
 Displays mod version
 
 # Known issues/bugs
