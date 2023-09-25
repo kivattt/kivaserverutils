@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.kiva.server.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinNetServerHandler",
+    "MixinExplosion",
+    "MixinItemDynamite",
+    "MixinContainer",
+    "MixinThreadHeavy"
+  ]
+}
