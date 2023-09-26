@@ -56,9 +56,7 @@ Resets spawn location to null
 Displays mod version
 
 # Known issues/bugs
-All teleportation in this mod requires the player to relog,
-since they get kicked for moving too fast. This is an issue with
-the current version of FoxLoader, and I may manually fix this in a future release.
+`/home` and `/sethome` don't check the players dimension, teleporting to the coordinate no matter the dimension
 
 # Info for mod developers
 `Container.updateInventory` is overwritten by this mod,\
