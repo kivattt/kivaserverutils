@@ -38,7 +38,7 @@ public class FileWriteAndLoadStringCoordinateHashmap {
                 line = reader.readLine();
             }
         } catch(IOException e){
-            System.out.println("Failed to load string & coordinate hashmap from file: " + filename);
+            System.err.println("Failed to load string & coordinate hashmap from file: " + filename);
             return null;
         }
 

@@ -54,12 +54,11 @@ public abstract class MixinContainer{
                 final boolean itemChangedWasPlayersInventory = var1 < this.inventoryItemStacks.size() && var1 >= this.inventoryItemStacks.size() - 36;
                 final boolean eitherIsNull = var3 == null || itemStack == null;
                 boolean disqualifyForEqual = false;
-                if (!eitherIsNull) {
+                if (!eitherIsNull)
                     disqualifyForEqual = (var3.itemID == itemStack.itemID && var3.stackSize == itemStack.stackSize);
-                }
-                if (fromHandleWindowClick && !itemChangedWasPlayersInventory && containerTypeName != "Unknown" && !disqualifyForEqual /*&& username != ""*/ && this.windowId != 0) {
+
+                if (fromHandleWindowClick && !itemChangedWasPlayersInventory && (!containerTypeName.equals("Unknown")) && !disqualifyForEqual /*&& username != ""*/ && this.windowId != 0)
                     containerItemsChangedLog = containerItemsChangedLog + "\nPlayer" + /*username +*/ " in " + containerTypeName + ", item " + ((var3 == null) ? "null" : var3) + " replaced with " + ((itemStack == null) ? "null" : itemStack);
-                }
 
                 var3 = itemStack == null ? null : itemStack.copy();
                 this.inventoryItemStacks.set(var1, var3);

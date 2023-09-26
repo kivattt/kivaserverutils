@@ -29,7 +29,7 @@ public class FileWriteAndLoadHashmap {
             for (final String key : p.stringPropertyNames())
                 ret.put(key, p.getProperty(key));
         } catch(IOException e){
-            System.out.println("Failed to load hashmap from file: " + filename);
+            System.err.println("Failed to load hashmap from file: " + filename);
         }
 
         return ret;

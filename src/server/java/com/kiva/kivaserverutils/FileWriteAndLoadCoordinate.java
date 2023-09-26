@@ -29,7 +29,7 @@ public class FileWriteAndLoadCoordinate {
             ret.z = scanner.nextDouble();
             scanner.close();
         } catch(FileNotFoundException e){
-            System.out.println("Failed to load coordinate from file: " + filename);
+            System.err.println("Failed to load coordinate from file: " + filename);
             return null;
         }
 
