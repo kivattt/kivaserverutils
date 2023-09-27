@@ -39,7 +39,7 @@ public class FileWriteAndLoadStringCoordinateHashmap {
             }
         } catch(IOException e){
             System.err.println("Failed to load string & coordinate hashmap from file: " + filename);
-            return null;
+            return new HashMap<>();
         }
 
         return ret;
