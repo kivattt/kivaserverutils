@@ -10,6 +10,13 @@ public class KivaServerUtils extends Mod {
     public static HashMap<String, Coordinate> playerHomes = new HashMap<>();
     public static Coordinate spawnCommandLocation = null;
     public static String version = "0.5.0";
+    public static HashMap<String, Boolean> config = new HashMap<>();
+
+    public static Boolean getConfigValue(String key){
+        if (!config.containsKey(key))
+            return false;
+        return config.get(key);
+    }
 
     @Override
     public void onPreInit(){

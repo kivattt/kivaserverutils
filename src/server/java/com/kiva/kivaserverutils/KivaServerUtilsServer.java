@@ -17,8 +17,11 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         KivaServerUtils.playerPronouns  = FileWriteAndLoadHashmap.loadHashmapFromFile("mods/KivaServerUtils/playerpronouns.properties");
         KivaServerUtils.playerHomes     = FileWriteAndLoadStringCoordinateHashmap.loadStringCoordinateHashmapFromFile("mods/KivaServerUtils/playerhomes.txt");
         KivaServerUtils.spawnCommandLocation = FileWriteAndLoadCoordinate.loadCoordinateFromFile("mods/KivaServerUtils/spawncommandlocation.txt");
+        KivaServerUtils.config = FileWriteAndLoadStringBooleanHashmap.loadStringBooleanHashmapFromFile("mods/KivaServerUtils/config.txt");
 
         CommandCompat.registerCommand(new KivaVersion());
+        CommandCompat.registerCommand(new KivaShowConfig());
+        CommandCompat.registerCommand(new ExplosionsBreakChests());
         CommandCompat.registerCommand(new Nick());
         CommandCompat.registerCommand(new NickList());
         CommandCompat.registerCommand(new NickSet());
@@ -37,7 +40,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         System.out.println("KivaServerUtils initialized");
     }
 
-    @Override
+    @Override // TODO: Check if this is necessary or not
     public void onServerStop(NetworkPlayer.ConnectionType connectionType) {
         super.onServerStop(connectionType);
 
@@ -55,5 +58,6 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronouns, "mods/KivaServerUtils/playerpronouns.properties");
         FileWriteAndLoadStringCoordinateHashmap.writeStringCoordinateHashmapToFile(KivaServerUtils.playerHomes, "mods/KivaServerUtils/playerhomes.txt");
         FileWriteAndLoadCoordinate.writeCoordinateToFile(KivaServerUtils.spawnCommandLocation, "mods/KivaServerUtils/spawncommandlocation.txt");
+        FileWriteAndLoadStringBooleanHashmap.writeStringBooleanHashmapToFile(KivaServerUtils.config, "mods/KivaServerUtils/config.txt");
     }
 }

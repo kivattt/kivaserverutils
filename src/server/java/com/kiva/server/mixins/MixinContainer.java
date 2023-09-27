@@ -69,7 +69,7 @@ public abstract class MixinContainer{
             }
         }
 
-        if (containerItemsChangedLog != "") {
+        if (!containerItemsChangedLog.isEmpty()) {
             final Logger logger = Logger.getLogger("Minecraft");
             logger.warning("Inventory update:" + containerItemsChangedLog);
         }

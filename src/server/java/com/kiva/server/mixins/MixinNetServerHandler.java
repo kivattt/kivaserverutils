@@ -4,16 +4,13 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.kiva.kivaserverutils.KivaServerUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
-import net.minecraft.src.game.item.ItemStack;
-import net.minecraft.src.game.recipe.ICrafting;
 import net.minecraft.src.server.packets.NetServerHandler;
 import net.minecraft.src.server.packets.Packet3Chat;
-import net.minecraft.src.server.playergui.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
-
-import java.util.List;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(NetServerHandler.class)
 public abstract class MixinNetServerHandler {
@@ -34,5 +31,10 @@ public abstract class MixinNetServerHandler {
         }else {
             return "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         }
+    }
+
+    @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Ljava/util/logging/Logger;info(Ljava/lang/String;)V"))
+    private String logOriginalUsername$handleChat(String in){
+        return this.playerEntity.username + " > " + in;
     }
 }

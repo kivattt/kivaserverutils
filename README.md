@@ -52,6 +52,12 @@ Teleport to coordinate
 `/spawnreset` (OP-only command)\
 Resets spawn location to null
 
+`/explosionsbreakchests <true or false>` (OP-only command)\
+Set if explosions break chests and crates
+
+`/kivashowconfig`\
+Shows config for KivaServerUtils
+
 `/kivaversion`\
 Displays mod version
 
@@ -64,3 +70,5 @@ keep this in mind if you are writing mixins for this method
 
 # Other
 `/sethome` doesn't follow the naming convention `...set` because it's such a common command name in Minecraft servers
+
+All data KivaServerUtils stores is in the `mods/KivaServerUtils` folder
