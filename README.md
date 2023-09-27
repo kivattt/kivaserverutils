@@ -55,6 +55,9 @@ Teleport to coordinate
 `/explosionsbreakchests <true or false>` (OP-only command)\
 Set if explosions break chests and crates
 
+`/homecommandsdisabled <true or false>` (OP-only command)\
+Enable/disable the `/home` and `/sethome` commands
+
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 
