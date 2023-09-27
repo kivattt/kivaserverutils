@@ -19,6 +19,11 @@ public class Home extends CommandCompat{
 
     // TODO Make DRY
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {
+        if (KivaServerUtils.getConfigValue("homecommandsdisabled")){
+            commandExecutor.displayChatMessage(ChatColors.RED + "Home commands are disabled");
+            return;
+        }
+
         if (KivaServerUtils.playerHomes == null){
             commandExecutor.displayChatMessage(ChatColors.RED + "You have no home, use /sethome");
             return;

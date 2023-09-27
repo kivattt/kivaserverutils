@@ -16,6 +16,11 @@ public class SetHome extends CommandCompat{
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
+        if (KivaServerUtils.getConfigValue("homecommandsdisabled")){
+            commandExecutor.displayChatMessage(ChatColors.RED + "Home commands are disabled");
+            return;
+        }
+
         Coordinate playersCurrentCoordinate = new Coordinate();
         playersCurrentCoordinate.x = commandExecutor.getRegisteredX();
         playersCurrentCoordinate.y = commandExecutor.getRegisteredY();

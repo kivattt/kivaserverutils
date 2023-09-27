@@ -23,6 +23,9 @@ Teleport to spawn (If spawn location specified)
 `/spawnset` (OP-only command)\
 Set the location `/spawn` sends the player
 
+`/spawnreset` (OP-only command)\
+Resets spawn location to null
+
 `/nick <nickname>`\
 Give yourself a nickname in chat
 
@@ -48,9 +51,6 @@ When player supplied, an OP can force reset a players pronouns
 
 `/teleport <x> <y> <z>` (OP-only command)\
 Teleport to coordinate
-
-`/spawnreset` (OP-only command)\
-Resets spawn location to null
 
 `/explosionsbreakchests <true or false>` (OP-only command)\
 Set if explosions break chests and crates
