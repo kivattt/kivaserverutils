@@ -5,6 +5,7 @@
 ## Features
 Improved player chat, with colors, nicknames and pronouns aswell as red usernames for OP players\
 Adds spawn and home commands\
+Adds a stricter mob cap which allows mobs to be enabled for servers without lag\
 Improved logging for chests and crates, see items being taken/added\
 Fixes 100% CPU usage on 1 core\
 Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates.\
@@ -51,6 +52,9 @@ When player supplied, an OP can force reset a players pronouns
 
 `/teleport <x> <y> <z>` (OP-only command)\
 Teleport to coordinate
+
+`/mobcapdisabled <true or false>` (OP-only command)\
+Enable or disable the mobcap (setting mobcapdisabled to true will introduce lag!)
 
 `/explosionsbreakchests <true or false>` (OP-only command)\
 Set if explosions break chests and crates

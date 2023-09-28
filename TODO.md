@@ -10,3 +10,11 @@ More descriptive logging?
 - Itemstack amount changed
 - Itemstack added
 - Itemstack removed
+
+# Kiva config
+Just make it thought-out, not requiring `...disabled` to be the default
+just have something like
+```
+mobcap=true
+homecommands=false
+```

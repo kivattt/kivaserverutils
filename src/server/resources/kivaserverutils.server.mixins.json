@@ -8,6 +8,7 @@
     "MixinExplosion",
     "MixinItemDynamite",
     "MixinContainer",
-    "MixinThreadHeavy"
+    "MixinThreadHeavy",
+    "MixinSpawnerAnimals"
   ]
 }

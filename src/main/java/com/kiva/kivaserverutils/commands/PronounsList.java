@@ -15,6 +15,11 @@ public class PronounsList extends CommandCompat{
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
+        if (KivaServerUtils.playerPronouns.isEmpty()){
+            commandExecutor.displayChatMessage(ChatColors.RED + "There are no player pronouns");
+            return;
+        }
+
         commandExecutor.displayChatMessage(ChatColors.BOLD + ChatColors.BLUE + "Pronouns list:" + ChatColors.RESET);
 
         for (String playerName : KivaServerUtils.playerPronouns.keySet()){

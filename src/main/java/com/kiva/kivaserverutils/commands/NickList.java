@@ -15,6 +15,11 @@ public class NickList extends CommandCompat{
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
+        if (KivaServerUtils.playerNicknames.isEmpty()){
+            commandExecutor.displayChatMessage(ChatColors.RED + "There are no player nicknames");
+            return;
+        }
+
         commandExecutor.displayChatMessage(ChatColors.BOLD + ChatColors.DARK_AQUA + "Nickname list:" + ChatColors.RESET);
 
         for (String playerName : KivaServerUtils.playerNicknames.keySet()){

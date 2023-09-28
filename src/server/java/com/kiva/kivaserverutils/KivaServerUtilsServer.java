@@ -23,6 +23,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new KivaShowConfig());
         CommandCompat.registerCommand(new ExplosionsBreakChests());
         CommandCompat.registerCommand(new HomeCommandsDisabled());
+        CommandCompat.registerCommand(new MobcapDisabled());
         CommandCompat.registerCommand(new Nick());
         CommandCompat.registerCommand(new NickList());
         CommandCompat.registerCommand(new NickSet());

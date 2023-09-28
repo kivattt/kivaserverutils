@@ -18,7 +18,7 @@ public abstract class MixinExplosion {
     @Shadow private World worldObj;
 
     @Redirect(method = "doExplosion", at = @At(value = "INVOKE", target = "Ljava/util/Set;add(Ljava/lang/Object;)Z", ordinal = 0))
-    public boolean excludeBlocks$doExplosion(Set instance, Object e){
+    public boolean excludeBlocks$doExplosion(Set<ChunkPosition> instance, Object e){
         ChunkPosition pos = (ChunkPosition)e;
         if (KivaServerUtils.getConfigValue("explosionsbreakchests"))
             //return instance.add((ChunkPosition) e);

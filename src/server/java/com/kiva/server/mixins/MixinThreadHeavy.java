@@ -1,6 +1,5 @@
 package com.kiva.server.mixins;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.server.ThreadHeavy;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,7 +15,7 @@ public class MixinThreadHeavy {
     public void sleepInThreadHeavy(CallbackInfo ci){
         if (isAlive) {
             try {
-                Thread.sleep(1L); // Pretty arbitrary, but has to be pretty low so closing the server doesnt take forever to save chunks
+                Thread.sleep(1L); // Pretty arbitrary, but has to be pretty low so closing the server doesn't take forever
             } catch (final InterruptedException ex) {
             }
         }
