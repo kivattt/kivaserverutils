@@ -1,12 +1,9 @@
 package com.kiva.server.mixins;
 
 import com.kiva.kivaserverutils.KivaServerUtils;
-import net.minecraft.src.game.block.tileentity.TileEntity;
-import net.minecraft.src.game.block.tileentity.TileEntityChest;
 import net.minecraft.src.game.entity.EnumCreatureType;
 import net.minecraft.src.game.level.SpawnerAnimals;
 import net.minecraft.src.game.level.World;
-import net.minecraft.src.game.level.features.WorldGenDungeons;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
