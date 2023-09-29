@@ -9,7 +9,7 @@ public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerPronouns = new HashMap<>();
     public static HashMap<String, Coordinate> playerHomes = new HashMap<>();
     public static Coordinate spawnCommandLocation = null;
-    public static String version = "0.7.0";
+    public static String version = "0.8.0";
     public static HashMap<String, Boolean> config = new HashMap<>();
     public static String handleWindowClickLatestPlayerUsername;
 
