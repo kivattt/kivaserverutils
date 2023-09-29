@@ -1,5 +1,6 @@
 package com.kiva.server.mixins;
 
+import com.kiva.kivaserverutils.KivaServerUtils;
 import net.minecraft.src.game.entity.player.EntityPlayer;
 import net.minecraft.src.game.item.ItemStack;
 import net.minecraft.src.game.recipe.ICrafting;
@@ -57,8 +58,8 @@ public abstract class MixinContainer{
                 if (!eitherIsNull)
                     disqualifyForEqual = (var3.itemID == itemStack.itemID && var3.stackSize == itemStack.stackSize);
 
-                if (fromHandleWindowClick && !itemChangedWasPlayersInventory && (!containerTypeName.equals("Unknown")) && !disqualifyForEqual /*&& username != ""*/ && this.windowId != 0)
-                    containerItemsChangedLog = containerItemsChangedLog + "\nPlayer" + /*username +*/ " in " + containerTypeName + ", item " + ((var3 == null) ? "null" : var3) + " replaced with " + ((itemStack == null) ? "null" : itemStack);
+                if (fromHandleWindowClick && !itemChangedWasPlayersInventory && (!containerTypeName.equals("Unknown")) && !disqualifyForEqual && KivaServerUtils.handleWindowClickLatestPlayerUsername != null && this.windowId != 0)
+                    containerItemsChangedLog = containerItemsChangedLog + "\n" + KivaServerUtils.handleWindowClickLatestPlayerUsername +  " in " + containerTypeName + ", item " + ((var3 == null) ? "null" : var3) + " replaced with " + ((itemStack == null) ? "null" : itemStack);
 
                 var3 = itemStack == null ? null : itemStack.copy();
                 this.inventoryItemStacks.set(var1, var3);
@@ -75,4 +76,3 @@ public abstract class MixinContainer{
         }
     }
 }
-

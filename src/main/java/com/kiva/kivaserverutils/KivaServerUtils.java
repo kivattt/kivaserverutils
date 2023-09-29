@@ -11,6 +11,7 @@ public class KivaServerUtils extends Mod {
     public static Coordinate spawnCommandLocation = null;
     public static String version = "0.7.0";
     public static HashMap<String, Boolean> config = new HashMap<>();
+    public static String handleWindowClickLatestPlayerUsername;
 
     public static Boolean getConfigValue(String key){
         if (!config.containsKey(key))

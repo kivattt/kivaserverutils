@@ -5,12 +5,15 @@ import com.kiva.kivaserverutils.KivaServerUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 import net.minecraft.src.server.packets.NetServerHandler;
+import net.minecraft.src.server.packets.Packet102WindowClick;
 import net.minecraft.src.server.packets.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetServerHandler.class)
 public abstract class MixinNetServerHandler {
@@ -36,5 +39,11 @@ public abstract class MixinNetServerHandler {
     @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Ljava/util/logging/Logger;info(Ljava/lang/String;)V"))
     private String logOriginalUsername$handleChat(String in){
         return this.playerEntity.username + " > " + in;
+    }
+
+    // Incredibly hacky
+    @Inject(method = "handleWindowClick", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/server/playergui/Container;updateInventory()V"))
+    public void storeLatestPlayerUsername(Packet102WindowClick packet102WindowClick, CallbackInfo ci){
+        KivaServerUtils.handleWindowClickLatestPlayerUsername = this.playerEntity.username;
     }
 }
