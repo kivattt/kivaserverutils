@@ -1,3 +1,4 @@
+- Better system for configuration, less confusing commands (something like /gamerule <key> <value>) 
 - In `/spawn`, `/teleport` command check if the target chunk is loaded by the player
 and if not, warn them to try relogging if they're stuck in air
 
