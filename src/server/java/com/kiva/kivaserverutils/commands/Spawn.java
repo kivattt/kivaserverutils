@@ -1,8 +1,12 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.launcher.ServerMain;
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
+import com.kiva.kivaserverutils.Coordinate;
+
 import static com.kiva.kivaserverutils.KivaServerUtils.spawnCommandLocation;
 
 public class Spawn extends CommandCompat{
@@ -19,6 +23,12 @@ public class Spawn extends CommandCompat{
             commandExecutor.displayChatMessage(ChatColors.RED + "No spawn has been set");
             return;
         }
+
+        if (spawnCommandLocation.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension){
+            commandExecutor.displayChatMessage(ChatColors.YELLOW + "Spawn is in the " + Coordinate.dimensionToString(spawnCommandLocation.dimension) + ", unable to teleport you");
+            return;
+        }
+
         commandExecutor.teleportRegistered(spawnCommandLocation.x, spawnCommandLocation.y, spawnCommandLocation.z);
         commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleported to spawn!");
     }

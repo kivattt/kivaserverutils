@@ -32,7 +32,7 @@ public class FileWriteAndLoadStringBooleanHashmap {
 
             String line = reader.readLine();
             while (line != null){
-                if (line.startsWith("#")) {
+                if (line.startsWith("#") || line.isEmpty()) {
                     line = reader.readLine();
                     continue;
                 }

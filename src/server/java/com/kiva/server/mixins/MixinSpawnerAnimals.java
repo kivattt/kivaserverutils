@@ -17,8 +17,8 @@ public abstract class MixinSpawnerAnimals {
         if (KivaServerUtils.getConfigValue("mobcapdisabled"))
             return instance.size();
 
-        // Unfortunately a little stepped since this has to return int, but should not be an issue
-        return (int)((Math.pow(world.playerEntities.size(), 0.7) * 1.5) * 256);
+        // Unfortunately a little stepped since this has to return int, but should not be an issue since its still very accurate
+        return (int)((Math.pow(world.playerEntities.size(), 0.35) * 2) * 256);
     }
 
     @Redirect(method = "performSpawning", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/game/entity/EnumCreatureType;getMaxNumberOfCreature()I"))

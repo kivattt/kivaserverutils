@@ -4,7 +4,6 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
-import com.kiva.kivaserverutils.UsageMessage;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 

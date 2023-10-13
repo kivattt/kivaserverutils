@@ -34,9 +34,11 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new PronounsReset());
         CommandCompat.registerCommand(new Teleport());
         CommandCompat.registerCommand(new Spawn());
+        CommandCompat.registerCommand(new SpawnWhere());
         CommandCompat.registerCommand(new SpawnSet());
         CommandCompat.registerCommand(new SpawnReset());
         CommandCompat.registerCommand(new Home());
+        CommandCompat.registerCommand(new HomeWhere());
         CommandCompat.registerCommand(new SetHome());
 
         System.out.println("KivaServerUtils initialized");

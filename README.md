@@ -15,11 +15,17 @@ Improved logging for players throwing dynamite
 `/home`\
 Teleport to home (If home exists)
 
+`/homewhere`\
+Show home location without teleporting to it
+
 `/sethome`\
 Sets your home location
 
 `/spawn`\
 Teleport to spawn (If spawn location specified)
+
+`/spawnwhere`\
+Show spawn location without teleporting to it
 
 `/spawnset` (OP-only command)\
 Set the location `/spawn` sends the player
@@ -42,6 +48,9 @@ When player supplied, an OP can force reset a players nickname
 
 `/pronouns <pronouns>`\
 Give yourself pronouns in chat
+
+`/pronounslist`\
+See everyone's pronouns
 
 `/pronounsset <player> <pronouns>` (OP-only command)\
 Force set a players pronouns
@@ -67,9 +76,6 @@ Shows config for KivaServerUtils
 
 `/kivaversion`\
 Displays mod version
-
-# Known issues/bugs
-`/home` and `/sethome` don't check the players dimension, teleporting to the coordinate no matter the dimension
 
 # Info for mod developers
 `Container.updateInventory` is overwritten by this mod,\

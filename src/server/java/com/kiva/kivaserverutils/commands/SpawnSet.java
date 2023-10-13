@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
@@ -14,26 +15,18 @@ public class SpawnSet extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/spawnset <x> <y> <z>";
+        return "§e/spawnset";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
-        if (args.length != 4){
-            sendUsageMessage(commandSyntax(), commandExecutor);
-            return;
-        }
-
         Coordinate pos = new Coordinate();
 
-        try {
-            pos.x = Double.parseDouble(args[1]);
-            pos.y = Double.parseDouble(args[2]);
-            pos.z = Double.parseDouble(args[3]);
+        pos.x = commandExecutor.getRegisteredX();
+        pos.y = commandExecutor.getRegisteredY();
+        pos.z = commandExecutor.getRegisteredZ();
+        pos.dimension = ServerMod.toEntityPlayerMP(commandExecutor).dimension;
 
-            spawnCommandLocation = pos;
-            commandExecutor.displayChatMessage(ChatColors.GREEN + "Spawn location set! [" + ChatColors.RESET + pos.x + " " + pos.y + " " + pos.z + ChatColors.GREEN + "]" + ChatColors.RESET);
-        } catch (NumberFormatException e){
-            sendUsageMessage(commandSyntax(), commandExecutor);
-        }
+        spawnCommandLocation = pos;
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Spawn location set! [" + ChatColors.RESET + pos.toStringXYZInt() + ChatColors.GREEN + "] in the " + ChatColors.RESET + Coordinate.dimensionToString(pos.dimension));
     }
 }
