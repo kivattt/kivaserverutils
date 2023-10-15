@@ -31,7 +31,7 @@ Show spawn location without teleporting to it
 Set the location `/spawn` sends the player
 
 `/spawnreset` (OP-only command)\
-Resets spawn location to null
+Removes spawn location
 
 `/nick <nickname>`\
 Give yourself a nickname in chat
@@ -58,6 +58,12 @@ Force set a players pronouns
 `/pronounsreset <optional player>`\
 Resets / removes your pronouns\
 When player supplied, an OP can force reset a players pronouns
+
+`/namecolor <color>`\
+Change your name color
+
+`/namecolorreset`\
+Resets your name color
 
 `/teleport <x> <y> <z>` (OP-only command)\
 Teleport to coordinate

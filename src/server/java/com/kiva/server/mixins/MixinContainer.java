@@ -1,7 +1,6 @@
 package com.kiva.server.mixins;
 
 import com.kiva.kivaserverutils.KivaServerUtils;
-import net.minecraft.src.game.entity.player.EntityPlayer;
 import net.minecraft.src.game.item.ItemStack;
 import net.minecraft.src.game.recipe.ICrafting;
 import net.minecraft.src.server.playergui.Container;
@@ -11,8 +10,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.logging.Logger;
 
 @Mixin(Container.class)

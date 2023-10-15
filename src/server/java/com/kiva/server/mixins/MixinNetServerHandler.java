@@ -2,6 +2,7 @@ package com.kiva.server.mixins;
 
 import com.fox2code.foxloader.network.ChatColors;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.KivaServerUtilsServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 import net.minecraft.src.server.packets.NetServerHandler;
@@ -26,7 +27,10 @@ public abstract class MixinNetServerHandler {
     @ModifyVariable(method = "handleChat", at = @At(value = "STORE", ordinal = 2))
     private String customChat$handleChat(String value, Packet3Chat packet3Chat){
         String pronouns = KivaServerUtils.playerPronouns.get(this.playerEntity.username);
-        String nameColor = this.mcServer.configManager.isOp(this.playerEntity.username) ? ChatColors.RED : ChatColors.AQUA;
+        String nameColor = KivaServerUtils.getPlayerNameColor(this.playerEntity.username);
+        if (this.mcServer.configManager.isOp(this.playerEntity.username) && KivaServerUtils.playerNameColors.get(this.playerEntity.username) == null)
+            nameColor = ChatColors.RED;
+
         String playerNameUnlessNickname = KivaServerUtils.playerNicknames.get(this.playerEntity.username) == null ? this.playerEntity.username : KivaServerUtils.playerNicknames.get(this.playerEntity.username);
 
         if (pronouns != null) {
