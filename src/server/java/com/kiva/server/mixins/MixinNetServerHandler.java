@@ -10,10 +10,7 @@ import net.minecraft.src.server.packets.Packet102WindowClick;
 import net.minecraft.src.server.packets.Packet3Chat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetServerHandler.class)
@@ -50,4 +47,13 @@ public abstract class MixinNetServerHandler {
     public void storeLatestPlayerUsername(Packet102WindowClick packet102WindowClick, CallbackInfo ci){
         KivaServerUtils.handleWindowClickLatestPlayerUsername = this.playerEntity.username;
     }
+
+    // Scrapped spawn location dimension code
+    /*@ModifyArg(method = "handleRespawnPacket", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/server/ServerConfigurationManager;recreatePlayerEntity(Lnet/minecraft/src/game/entity/player/EntityPlayerMP;I)Lnet/minecraft/src/game/entity/player/EntityPlayerMP;"), index = 1)
+    public int setDimensionOnRespawn(int arg2){
+        if (KivaServerUtils.spawnCommandLocation == null)
+            return 0; // Vanilla behaviour
+
+        return KivaServerUtils.spawnCommandLocation.dimension;
+    }*/
 }

@@ -9,7 +9,7 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
 public class PronounsSet extends CommandCompat{
     public PronounsSet(){
-        super("pronounsset", false);
+        super("pronounsset", true);
     }
 
     public String commandSyntax(){

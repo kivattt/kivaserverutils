@@ -4,11 +4,12 @@
   "package": "com.kiva.server.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinNetServerHandler",
+    "MixinContainer",
     "MixinExplosion",
     "MixinItemDynamite",
-    "MixinContainer",
+    "MixinNetServerHandler",
+    "MixinSpawnerAnimals",
     "MixinThreadHeavy",
-    "MixinSpawnerAnimals"
+    "MixinWorld"
   ]
 }

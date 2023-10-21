@@ -3,6 +3,7 @@ package com.kiva.kivaserverutils.commands;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.NicknameAllowed;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
@@ -38,8 +39,8 @@ public class Nick extends CommandCompat{
             }
         }
 
-        if (KivaServerUtils.playerNicknames.containsValue(nickname)){
-            commandExecutor.displayChatMessage("Someone already has that nickname, ask a mod to force change it?");
+        if (!commandExecutor.isOperator() && !NicknameAllowed.nicknameIsAllowed(nickname)){
+            commandExecutor.displayChatMessage("Someone already has that nickname/username, ask a mod to force change it?");
             return;
         }
 

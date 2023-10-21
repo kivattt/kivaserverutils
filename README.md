@@ -87,6 +87,11 @@ Displays mod version
 `Container.updateInventory` is overwritten by this mod,\
 keep this in mind if you are writing mixins for this method
 
+# Known issues
+Doing `/sethome` then covering up the home location with blocks, unloading the chunk its in,
+then doing `/home` can make you fall into an underground cave
+this will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
+
 # Other
 `/sethome` doesn't follow the naming convention `...set` because it's such a common command name in Minecraft servers
 
