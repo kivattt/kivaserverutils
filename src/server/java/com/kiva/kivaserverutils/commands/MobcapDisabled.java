@@ -1,9 +1,11 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import net.minecraft.src.server.packets.Packet3Chat;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
@@ -31,5 +33,6 @@ public class MobcapDisabled extends CommandCompat{
 
         KivaServerUtils.config.put("mobcapdisabled", value);
         commandExecutor.displayChatMessage(ChatColors.GREEN + "mobcapdisabled now set to: " + ChatColors.RESET + value);
+        ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED + "Mob cap disabled" : ChatColors.GREEN + "Mob cap enabled")));
     }
 }

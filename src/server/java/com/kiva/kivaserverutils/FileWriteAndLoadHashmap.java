@@ -30,6 +30,7 @@ public class FileWriteAndLoadHashmap {
                 ret.put(key, p.getProperty(key));
         } catch(IOException e){
             System.err.println("Failed to load hashmap from file: " + filename);
+            KivaServerUtilsServer.possibleFirstRun = true;
         }
 
         return ret;

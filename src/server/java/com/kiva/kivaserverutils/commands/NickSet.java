@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
@@ -39,6 +40,6 @@ public class NickSet extends CommandCompat{
         }
 
         KivaServerUtils.playerNicknames.put(args[1], nickname);
-        commandExecutor.displayChatMessage("Nickname of " + args[1] + "set to " + nickname + "!");
+        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps("Nickname of " + args[1] + "set to " + nickname + "!");
     }
 }

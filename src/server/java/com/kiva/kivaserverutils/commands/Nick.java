@@ -8,9 +8,7 @@ import com.kiva.kivaserverutils.NicknameAllowed;
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
 public class Nick extends CommandCompat{
-    public Nick(){
-        super("nick", false);
-    }
+    public Nick(){super("nick", false);}
 
     public String commandSyntax(){
         return "§e/nick <nickname>";

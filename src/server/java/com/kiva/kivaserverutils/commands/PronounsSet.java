@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
@@ -38,6 +39,6 @@ public class PronounsSet extends CommandCompat{
         }
 
         KivaServerUtils.playerPronouns.put(args[1], pronouns);
-        commandExecutor.displayChatMessage("Pronouns of " + args[1] + " set! [" + ChatColors.GREEN + pronouns + ChatColors.RESET + "]");
+        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps("Pronouns of " + args[1] + " set! [" + ChatColors.GREEN + pronouns + ChatColors.RESET + "]");
     }
 }

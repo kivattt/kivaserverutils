@@ -5,13 +5,14 @@ import com.kiva.kivaserverutils.KivaServerUtils;
 import com.kiva.kivaserverutils.KivaServerUtilsServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
-import net.minecraft.src.server.packets.NetServerHandler;
-import net.minecraft.src.server.packets.Packet102WindowClick;
-import net.minecraft.src.server.packets.Packet3Chat;
+import net.minecraft.src.server.packets.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(NetServerHandler.class)
 public abstract class MixinNetServerHandler {
@@ -20,6 +21,37 @@ public abstract class MixinNetServerHandler {
 
     @Shadow
     public MinecraftServer mcServer;
+
+    @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
+    public void handleMutedPlayers(Packet3Chat packet3Chat, CallbackInfo ci){
+        if (!KivaServerUtils.isPlayerMuted(playerEntity.username))
+            return;
+
+        String msgTrim = packet3Chat.message.trim();
+
+        // Prevent /me or /tell commands
+        // TODO: Clean this up to use some proper command system?
+        List<String> commandsDisallowedWhileMuted = new ArrayList<>();
+        commandsDisallowedWhileMuted.add("me");
+        commandsDisallowedWhileMuted.add("tell");
+        commandsDisallowedWhileMuted.add("w");   // Alias for /tell
+        commandsDisallowedWhileMuted.add("msg"); // Alias for /tell
+
+        for (String command : commandsDisallowedWhileMuted){
+            if (msgTrim.toLowerCase().startsWith("/" + command + " ")){
+                playerEntity.displayChatMessage(ChatColors.RED + "You are currently muted");
+                ci.cancel();
+                return;
+            }
+        }
+
+        // Don't prevent other chat commands
+        if (msgTrim.startsWith("/"))
+            return;
+
+        playerEntity.displayChatMessage(ChatColors.RED + "You are currently muted");
+        ci.cancel();
+    }
 
     @ModifyVariable(method = "handleChat", at = @At(value = "STORE", ordinal = 2))
     private String customChat$handleChat(String value, Packet3Chat packet3Chat){
@@ -46,6 +78,22 @@ public abstract class MixinNetServerHandler {
     @Inject(method = "handleWindowClick", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/server/playergui/Container;updateInventory()V"))
     public void storeLatestPlayerUsername(Packet102WindowClick packet102WindowClick, CallbackInfo ci){
         KivaServerUtils.handleWindowClickLatestPlayerUsername = this.playerEntity.username;
+    }
+
+    @Inject(method = "handleUpdateSign", at = @At("HEAD"), cancellable = true)
+    public void onEditSign(Packet130UpdateSign packet130UpdateSign, CallbackInfo ci){
+        if (KivaServerUtils.isPlayerInRestrictiveMode(playerEntity.username)) {
+            playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "handleUseEntity", at = @At("HEAD"), cancellable = true)
+    public void onUseEntity(Packet7UseEntity packet7, CallbackInfo ci){
+        if (KivaServerUtils.isPlayerInRestrictiveMode(playerEntity.username)) {
+            playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+            ci.cancel();
+        }
     }
 
     // Scrapped spawn location dimension code

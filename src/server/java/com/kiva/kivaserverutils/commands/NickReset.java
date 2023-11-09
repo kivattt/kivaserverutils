@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
@@ -24,7 +25,7 @@ public class NickReset extends CommandCompat{
                 }
 
                 KivaServerUtils.playerNicknames.remove(args[1]);
-                commandExecutor.displayChatMessage("Nickname of " + args[1] + " reset!");
+                ServerMod.getGameInstance().configManager.sendChatMessageToAllOps("Nickname of " + args[1] + " reset!");
                 return;
             }
         }
