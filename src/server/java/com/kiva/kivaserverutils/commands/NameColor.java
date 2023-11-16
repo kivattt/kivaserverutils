@@ -17,7 +17,7 @@ public class NameColor extends CommandCompat{
     public String commandSyntax(){
         String ret = "§e/namecolor <color>\n§eAvailable colors:\n";
 
-        for(Map.Entry<String, String> entry : KivaServerUtils.colorNames.entrySet())
+        for(Map.Entry<String, String> entry : KivaServerUtils.nameColorChoicesNames.entrySet())
             ret += entry.getValue() + entry.getKey() + "\n";
 
         return ret;
@@ -29,7 +29,7 @@ public class NameColor extends CommandCompat{
             return;
         }
 
-        String newColor = KivaServerUtils.colorNames.get(args[1].toLowerCase());
+        String newColor = KivaServerUtils.nameColorChoicesNames.get(args[1].toLowerCase());
 
         if (newColor == null){
             commandExecutor.displayChatMessage(ChatColors.RED + "Invalid color");

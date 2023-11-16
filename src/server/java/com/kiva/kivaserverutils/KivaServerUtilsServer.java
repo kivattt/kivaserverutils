@@ -6,6 +6,7 @@ import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.fox2code.foxloader.registry.RegisteredItemStack;
 import com.kiva.kivaserverutils.commands.*;
+import net.minecraft.src.game.entity.player.EntityPlayerMP;
 import net.minecraft.src.game.item.ItemFood;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String playersInRestrictiveModeFilename       = KSUBasePath + "restrictivemodeplayers.txt";
     public static final String playersExcludedRestrictiveModeFilename = KSUBasePath + "restrictivemodeplayersexcluded.txt";
     public static final String playersMutedFilename                   = KSUBasePath + "playersmuted.txt";
+    public static final String protectedRegionsFilename               = KSUBasePath + "protectedregions.txt";
     public static final String spawnCommandLocationFilename           = KSUBasePath + "spawncommandlocation.txt";
     public static final String configFilename                         = KSUBasePath + "config.txt";
 
@@ -36,6 +38,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         KivaServerUtils.playersInRestrictiveMode           = FileWriteAndLoadStringSet.loadStringSetFromFile(playersInRestrictiveModeFilename);
         KivaServerUtils.playersExcludedFromRestrictiveMode = FileWriteAndLoadStringSet.loadStringSetFromFile(playersExcludedRestrictiveModeFilename);
         KivaServerUtils.playersMuted                       = FileWriteAndLoadStringSet.loadStringSetFromFile(playersMutedFilename);
+        KivaServerUtils.protectedRegions                   = FileWriteAndLoadStringProtectedRegionHashmap.loadStringProtectedRegionHashmapFromFile(protectedRegionsFilename);
         KivaServerUtils.spawnCommandLocation               = FileWriteAndLoadCoordinate.loadCoordinateFromFile(spawnCommandLocationFilename);
         KivaServerUtils.config                             = FileWriteAndLoadStringBooleanHashmap.loadStringBooleanHashmapFromFile(configFilename);
 
@@ -43,29 +46,29 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
             System.out.println("+----------------------------------------------------------------------+");
             System.out.println("|                                                                      |");
             System.err.println("|        HEADS UP!!!        [KivaServerUtils]        HEADS UP!!!       |");
-            System.out.println("| If you see a bunch of errors above, like \"Failed to load ...\",       |");
-            System.out.println("| It is perfectly normal for a first-time run of KivaServerUtils       |");
+            System.out.println("| If you see a bunch of errors above, like \"Failed to load ...\", it is |");
+            System.out.println("| perfectly normal for a first-time run, or update of KivaServerUtils. |");
             System.out.println("|                           (Just ignore it)                           |");
             System.out.println("|                                  :3                                  |");
             System.out.println("+----------------------------------------------------------------------+");
         }
 
         // Let me know if there's a better way to do this
-        colorNames.put("black", ChatColors.BLACK);
-        colorNames.put("darkblue", ChatColors.DARK_BLUE);
-        colorNames.put("darkgreen", ChatColors.DARK_GREEN);
-        colorNames.put("darkaqua", ChatColors.DARK_AQUA);
-        colorNames.put("darkred", ChatColors.DARK_RED);
-        colorNames.put("darkpurple", ChatColors.DARK_PURPLE);
-        colorNames.put("gold", ChatColors.GOLD);
-        colorNames.put("gray", ChatColors.GRAY);
-        colorNames.put("darkgray", ChatColors.DARK_GRAY);
-        colorNames.put("blue", ChatColors.BLUE);
-        colorNames.put("aqua", ChatColors.AQUA); // Default color
+        nameColorChoicesNames.put("black", ChatColors.BLACK);
+        nameColorChoicesNames.put("darkblue", ChatColors.DARK_BLUE);
+        nameColorChoicesNames.put("darkgreen", ChatColors.DARK_GREEN);
+        nameColorChoicesNames.put("darkaqua", ChatColors.DARK_AQUA);
+        nameColorChoicesNames.put("darkred", ChatColors.DARK_RED);
+        nameColorChoicesNames.put("darkpurple", ChatColors.DARK_PURPLE);
+        nameColorChoicesNames.put("gold", ChatColors.GOLD);
+        nameColorChoicesNames.put("gray", ChatColors.GRAY);
+        nameColorChoicesNames.put("darkgray", ChatColors.DARK_GRAY);
+        nameColorChoicesNames.put("blue", ChatColors.BLUE);
+        nameColorChoicesNames.put("aqua", ChatColors.AQUA); // Default color
         //colorNames.put("red", ChatColors.RED); // Reserved for operators as default color
-        colorNames.put("lightpurple", ChatColors.LIGHT_PURPLE);
-        colorNames.put("yellow", ChatColors.YELLOW);
-        colorNames.put("white", ChatColors.WHITE);
+        nameColorChoicesNames.put("lightpurple", ChatColors.LIGHT_PURPLE);
+        nameColorChoicesNames.put("yellow", ChatColors.YELLOW);
+        nameColorChoicesNames.put("white", ChatColors.WHITE);
         //colorNames.put("rainbow", ChatColors.RAINBOW); // Bugged in ReIndev 2.8.1_04
 
         CommandCompat.registerCommand(new Nick());
@@ -107,6 +110,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new Teleport());
         CommandCompat.registerCommand(new KivaVersion());
 
+        CommandCompat.registerCommand(new Protect());
+
         System.out.println("KivaServerUtils initialized");
     }
 
@@ -125,6 +130,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
                 return;
             }
         }
+
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNicknames, playerNicknamesFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronouns, playerPronounsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNameColors, playerNameColorsFilename);
@@ -132,30 +138,38 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersInRestrictiveMode, playersInRestrictiveModeFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersExcludedFromRestrictiveMode, playersExcludedRestrictiveModeFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersMuted, playersMutedFilename);
+        FileWriteAndLoadStringProtectedRegionHashmap.writeStringProtectedRegionHashmapToFile(KivaServerUtils.protectedRegions, protectedRegionsFilename);
         FileWriteAndLoadCoordinate.writeCoordinateToFile(KivaServerUtils.spawnCommandLocation, spawnCommandLocationFilename);
         FileWriteAndLoadStringBooleanHashmap.writeStringBooleanHashmapToFile(KivaServerUtils.config, configFilename);
+    }
+
+    public boolean handleRestrictiveModeAndRegionProtection(NetworkPlayer networkPlayer, final int x, final int y, final int z){
+        boolean isRestrictiveMode = KivaServerUtils.isPlayerInRestrictiveMode(networkPlayer.getPlayerName());
+        Pair<String, Boolean> protectedRegion = KivaServerUtils.inProtectedRegion(x, y, z, ((EntityPlayerMP)networkPlayer).dimension);
+
+        if (isRestrictiveMode)
+            networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+        else if (protectedRegion.second)
+            networkPlayer.displayChatMessage(KivaServerUtils.notifyProtectedRegion + protectedRegion.first);
+
+        return isRestrictiveMode | protectedRegion.second;
     }
 
     // Prevents breaking blocks while in restrictive mode
     @Override
     public boolean onPlayerStartBreakBlock(NetworkPlayer networkPlayer, RegisteredItemStack itemStack, int x, int y, int z, int facing, boolean cancelled) {
-        boolean isRestrictiveMode = KivaServerUtils.isPlayerInRestrictiveMode(networkPlayer.getPlayerName());
+        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z);
+    }
 
-        if (isRestrictiveMode)
-            networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
-
-        return isRestrictiveMode;
+    @Override
+    public boolean onPlayerBreakBlock(NetworkPlayer networkPlayer, RegisteredItemStack itemStack, int x, int y, int z, int facing, boolean cancelled) {
+        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z);
     }
 
     // Prevents placing blocks while in restrictive mode
     @Override
     public boolean onPlayerUseItemOnBlock(NetworkPlayer networkPlayer, RegisteredItemStack itemStack, int x, int y, int z, int facing, float xOffset, float yOffset, float zOffset, boolean cancelled) {
-        boolean isRestrictiveMode = KivaServerUtils.isPlayerInRestrictiveMode(networkPlayer.getPlayerName());
-
-        if (isRestrictiveMode)
-            networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
-
-        return isRestrictiveMode;
+        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z);
     }
 
     // Prevents using items like buckets to place water/lava when in restrictive mode

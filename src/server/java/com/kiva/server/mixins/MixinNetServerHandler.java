@@ -2,13 +2,16 @@ package com.kiva.server.mixins;
 
 import com.fox2code.foxloader.network.ChatColors;
 import com.kiva.kivaserverutils.KivaServerUtils;
-import com.kiva.kivaserverutils.KivaServerUtilsServer;
+import com.kiva.kivaserverutils.Pair;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 import net.minecraft.src.server.packets.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -84,6 +87,28 @@ public abstract class MixinNetServerHandler {
     public void onEditSign(Packet130UpdateSign packet130UpdateSign, CallbackInfo ci){
         if (KivaServerUtils.isPlayerInRestrictiveMode(playerEntity.username)) {
             playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+            ci.cancel();
+        }
+
+        Pair<String, Boolean> protectedRegion = KivaServerUtils.inProtectedRegion(packet130UpdateSign.xPosition, packet130UpdateSign.yPosition, packet130UpdateSign.zPosition, playerEntity.dimension);
+
+        if (protectedRegion.second){
+            playerEntity.displayChatMessage(KivaServerUtils.notifyProtectedRegion + protectedRegion.first);
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "handleCauldron", at = @At("HEAD"), cancellable = true)
+    public void onHandleCauldron(Packet66Cauldron packet66Cauldron, CallbackInfo ci){
+        if (KivaServerUtils.isPlayerInRestrictiveMode(playerEntity.username)){
+            playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+            ci.cancel();
+        }
+
+        Pair<String, Boolean> protectedRegion = KivaServerUtils.inProtectedRegion(packet66Cauldron.xPosition, packet66Cauldron.yPosition, packet66Cauldron.zPosition, playerEntity.dimension);
+
+        if (protectedRegion.second){
+            playerEntity.displayChatMessage(KivaServerUtils.notifyProtectedRegion + protectedRegion.first);
             ci.cancel();
         }
     }

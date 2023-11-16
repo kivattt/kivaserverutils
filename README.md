@@ -10,6 +10,7 @@
 - Fixes 100% CPU usage on 1 core\
 - Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates. (Configurable!)\
 - Improved logging for players throwing dynamite\
+- Region protection to prevent griefing of specific areas
 - Adds a [restrictive mode](#restrictive-mode) that prevents players from breaking/placing blocks, interacting with chests etc.
 - Adds the ability to mute players from chat
 
@@ -118,6 +119,35 @@ Lists all players excluded from restrictive mode
 </details>
 
 <details>
+<summary>Region protection</summary>
+
+These commands are OP-only,
+`/protect` and `/pr` are interchangeable
+
+`/protect list`\
+List all protected regions
+
+`/protect set <name>`\
+Create a new protected region from a wooden axe region selection
+
+`/protect remove <name>`\
+Remove a protected region
+
+`/protect removeall <confirmation>`\
+Remove all protected regions
+
+`/protect rename <name> <new name>`\
+Rename protected region
+
+`/protect expandheight <name>`\
+Make protected region span all the way vertically (Y coordinates 0 to 2047)
+
+`/protect info <name>`\
+See a regions coordinates and dimension
+
+</details>
+
+<details>
 <summary>Configuration</summary>
 
 `/mobcapdisabled <true or false>` (OP-only command)\
@@ -168,6 +198,8 @@ Players can spawn randomly around the spawn set by `/spawnset`, so it's not alwa
 Doing `/sethome` then covering up the home location with blocks, unloading the chunk its in,
 then doing `/home` can make you fall into an underground cave
 this will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
+
+You can't place blocks beside protected regions when right-clicking a block in the region
 
 # Other
 `/sethome` doesn't follow the naming convention `...set` because it's such a common command name in Minecraft servers

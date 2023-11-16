@@ -22,6 +22,5 @@ public class Mute extends CommandCompat {
 
         String playerUsername = args[1];
         Boolean newMuted = KivaServerUtils.togglePlayerMuted(playerUsername);
-        ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (newMuted ? ChatColors.RED : ChatColors.GREEN) + "Player " + ChatColors.RESET + playerUsername + " " + (newMuted ? ChatColors.RED + "is now" : ChatColors.GREEN + "is no longer") + " muted"));
-    }
+        ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + playerUsername + " " + (newMuted ? ChatColors.RED + "is now" : ChatColors.GREEN + "is no longer") + " muted"));    }
 }

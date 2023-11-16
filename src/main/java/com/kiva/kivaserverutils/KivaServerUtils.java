@@ -4,25 +4,28 @@ import com.fox2code.foxloader.loader.Mod;
 import com.fox2code.foxloader.network.ChatColors;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerNicknames = new HashMap<>();
     public static HashMap<String, String> playerPronouns = new HashMap<>();
     public static HashMap<String, String> playerNameColors = new HashMap<>();
+    public static HashMap<String, Coordinate> playerHomes = new HashMap<>();
     public static Set<String> playersInRestrictiveMode;
     public static Set<String> playersExcludedFromRestrictiveMode;
     public static Set<String> playersMuted;
-    public static String defaultPlayerNameColor = ChatColors.AQUA;
 
-    public static HashMap<String, String> colorNames = new HashMap<>();
+    public static HashMap<String, ProtectedRegion> protectedRegions = new HashMap<>();
 
-    public static HashMap<String, Coordinate> playerHomes = new HashMap<>();
-    public static Coordinate spawnCommandLocation = null;
-    public static String version = "1.3.0";
-    public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
     public static HashMap<String, Boolean> config = new HashMap<>();
+    public static Coordinate spawnCommandLocation = null;
+
+    public static String defaultPlayerNameColor = ChatColors.AQUA;
+    public static HashMap<String, String> nameColorChoicesNames = new HashMap<>();
+    public static String version = "1.4.0";
+    public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
+
     public static String handleWindowClickLatestPlayerUsername;
 
     public static String getPlayerNameColor(final String playerName){
@@ -39,6 +42,7 @@ public class KivaServerUtils extends Mod {
     }
 
     public static String notifyPlayerIsInRestrictiveMode = ChatColors.RED + "You are currently in restrictive mode";
+    public static String notifyProtectedRegion = ChatColors.RED + "Protected region: ";
 
     public static Boolean isPlayerInRestrictiveMode(final String username){
         if (!KivaServerUtils.getConfigValue("restrictbydefault"))
@@ -80,6 +84,33 @@ public class KivaServerUtils extends Mod {
             KivaServerUtils.playersMuted.add(username);
 
         return isPlayerMuted(username);
+    }
+
+    public static Pair<String, Boolean> inProtectedRegion(final int x, final int y, final int z, final int dimension){
+        if (KivaServerUtils.protectedRegions.isEmpty())
+            return new Pair<String, Boolean>("", false);
+
+        // TODO Calculate distance to region (taking into account (cached?) "radiuses" (max to prevent false-positives)) to ignore some regions, saving on performance
+        // TODO Could separate out into 2 hashmaps based on dimension to speed it up even more
+        for (Map.Entry<String, ProtectedRegion> regionEntry : KivaServerUtils.protectedRegions.entrySet()){
+            ProtectedRegion region = regionEntry.getValue();
+
+            // worldObj.dimension in MixinExplosion.java is 1 for some reason in the nether
+            if (dimension == 0){ // Overworld
+                if (region.dimension != 0)
+                    continue;
+            } else { // Nether
+                if (region.dimension == 0)
+                    continue;
+            }
+
+            if ((x >= region.xMin) && (x <= region.xMax)
+                    && (y >= region.yMin) && (y <= region.yMax)
+                    && (z >= region.zMin) && (z <= region.zMax))
+                return new Pair<String, Boolean>(regionEntry.getKey() + ChatColors.GRAY + " (" + Coordinate.dimensionToString(region.dimension) + ")", true);
+        }
+
+        return new Pair<String, Boolean>("", false);
     }
 
     @Override
