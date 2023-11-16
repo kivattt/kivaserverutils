@@ -14,7 +14,7 @@
 - Adds a [restrictive mode](#restrictive-mode) that prevents players from breaking/placing blocks, interacting with chests etc.
 - Adds the ability to mute players from chat
 
-## Commands
+## Commands (Click to expand sections)
 <details>
 <summary>Home</summary>
 
