@@ -15,7 +15,7 @@ public class MobcapDisabled extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/mobcapdisabled <true or false>";
+        return ChatColors.YELLOW + "/mobcapdisabled <true or false>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

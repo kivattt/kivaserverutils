@@ -12,7 +12,7 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 public class Mute extends CommandCompat {
     public Mute(){super("mute", true);}
 
-    public String commandSyntax(){return "§e/mute <player>";}
+    public String commandSyntax(){return ChatColors.YELLOW + "/mute <player>";}
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {
         if (args.length != 2){

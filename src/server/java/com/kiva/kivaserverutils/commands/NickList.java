@@ -11,7 +11,7 @@ public class NickList extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/nicklist";
+        return ChatColors.YELLOW + "/nicklist";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

@@ -12,7 +12,7 @@ public class RestrictExclude extends CommandCompat {
     public RestrictExclude(){super("restrictexclude", true);}
 
     public String commandSyntax(){
-        return "§e/restrictexclude <player>";
+        return ChatColors.YELLOW + "/restrictexclude <player>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {

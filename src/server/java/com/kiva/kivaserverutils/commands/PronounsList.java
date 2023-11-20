@@ -11,7 +11,7 @@ public class PronounsList extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/pronounslist";
+        return ChatColors.YELLOW + "/pronounslist";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

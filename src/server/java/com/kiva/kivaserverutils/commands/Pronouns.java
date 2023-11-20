@@ -13,7 +13,7 @@ public class Pronouns extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/pronouns <pronouns>";
+        return ChatColors.YELLOW + "/pronouns <pronouns>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

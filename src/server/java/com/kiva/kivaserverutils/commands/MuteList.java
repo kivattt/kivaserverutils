@@ -10,7 +10,7 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 public class MuteList extends CommandCompat {
     public MuteList(){super("mutelist", false);}
 
-    public String commandSyntax(){return "§e/mutelist";}
+    public String commandSyntax(){return ChatColors.YELLOW + "/mutelist";}
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {
         if (KivaServerUtils.playersMuted.isEmpty()){

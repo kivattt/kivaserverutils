@@ -15,7 +15,7 @@ public class Home extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/home";
+        return ChatColors.YELLOW + "/home";
     }
 
     // TODO Make DRY

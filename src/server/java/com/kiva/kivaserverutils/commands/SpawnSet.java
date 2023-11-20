@@ -17,7 +17,7 @@ public class SpawnSet extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/spawnset";
+        return ChatColors.YELLOW + "/spawnset";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

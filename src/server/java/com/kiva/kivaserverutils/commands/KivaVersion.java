@@ -11,7 +11,7 @@ public class KivaVersion extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/kivaversion";
+        return ChatColors.YELLOW + "/kivaversion";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

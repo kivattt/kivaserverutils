@@ -15,7 +15,7 @@ public class Spawn extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/spawn";
+        return ChatColors.YELLOW + "/spawn";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

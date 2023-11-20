@@ -13,7 +13,7 @@ public class KivaShowConfig extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/kivashowconfig";
+        return ChatColors.YELLOW + "/kivashowconfig";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

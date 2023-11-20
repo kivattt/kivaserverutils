@@ -3,14 +3,15 @@
 ![Example chat](images/chatexample.png)
 
 ## Features
-- Improved player chat, with colors, nicknames and pronouns aswell as red usernames for OP players\
-- Adds spawn and home commands\
-- Adds a stricter mob cap which allows mobs to be enabled for servers without lag\
-- Improved logging for chests and crates, see items being taken/added\
-- Fixes 100% CPU usage on 1 core\
-- Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates. (Configurable!)\
-- Improved logging for players throwing dynamite\
-- Region protection to prevent griefing of specific areas
+- Improved player chat, with colors, nicknames and pronouns aswell as red usernames for OP players
+- Player teleport request commands
+- Adds spawn and home commands
+- Adds a stricter mob cap which allows mobs to be enabled for servers without lag
+- Improved logging for chests and crates, see items being taken/added
+- Fixes 100% CPU usage on 1 core
+- Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates. (Configurable!)
+- Improved logging for players throwing dynamite
+- [Region protection](https://www.youtube.com/watch?v=HaCgemz3Sus) to prevent griefing of specific areas
 - Adds a [restrictive mode](#restrictive-mode) that prevents players from breaking/placing blocks, interacting with chests etc.
 - Adds the ability to mute players from chat
 
@@ -42,6 +43,22 @@ Set the location `/spawn` sends the player
 
 `/spawnreset` (OP-only command)\
 Removes spawn location
+</details>
+
+<details>
+<summary>Teleport requests</summary>
+
+`/tpa <player>`\
+Request to be teleported to player
+
+`/tparevoke` or `/tprevoke`\
+Revoke all your teleport requests
+
+`/tpaccept <optional player>`\
+Accept a teleport request
+
+`/tpdeny <optional player>`\
+Deny a teleport request
 </details>
 
 <details>
@@ -81,10 +98,10 @@ When player supplied, an OP can force reset a players pronouns
 <details>
 <summary>Name colors</summary>
 
-`/namecolor <color>`\
+`/namecolor <color>` or `/namecolour <color>`\
 Change your name color
 
-`/namecolorreset`\
+`/namecolorreset` or `/namecolourreset`\
 Resets your name color
 </details>
 
@@ -159,6 +176,9 @@ Set if explosions break chests and crates
 `/homecommandsdisabled <true or false>` (OP-only command)\
 Enable/disable the `/home` and `/sethome` commands
 
+`/tpacommandsdisabled <true or false>` (OP-only command)\
+Enable/disable the `/tpa`, `/tpaccept`, `/tprevoke`, and `/tpdeny` commands
+
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 </details>
@@ -196,8 +216,8 @@ You can control/query [restrictive mode](#restrictive-mode) in your own mods wit
 Players can spawn randomly around the spawn set by `/spawnset`, so it's not always a perfect coordinate
 
 Doing `/sethome` then covering up the home location with blocks, unloading the chunk its in,
-then doing `/home` can make you fall into an underground cave
-this will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
+then doing `/home` can make you fall into an underground cave\
+This will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
 
 You can't place blocks beside protected regions when right-clicking a block in the region
 

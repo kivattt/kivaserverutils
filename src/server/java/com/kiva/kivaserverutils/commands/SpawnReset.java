@@ -16,7 +16,7 @@ public class SpawnReset extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/spawnreset";
+        return ChatColors.YELLOW + "/spawnreset";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {

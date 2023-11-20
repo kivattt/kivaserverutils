@@ -15,7 +15,7 @@ public class ExplosionsBreakChests extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/explosionsbreakchests <true or false>";
+        return ChatColors.YELLOW + "/explosionsbreakchests <true or false>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

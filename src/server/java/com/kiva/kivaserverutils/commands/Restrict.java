@@ -12,7 +12,7 @@ public class Restrict extends CommandCompat {
     public Restrict(){super("restrict", true);}
 
     public String commandSyntax(){
-        return "§e/restrict <player>";
+        return ChatColors.YELLOW + "/restrict <player>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {

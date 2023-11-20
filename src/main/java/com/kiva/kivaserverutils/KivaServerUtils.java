@@ -3,9 +3,7 @@ package com.kiva.kivaserverutils;
 import com.fox2code.foxloader.loader.Mod;
 import com.fox2code.foxloader.network.ChatColors;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerNicknames = new HashMap<>();
@@ -16,6 +14,7 @@ public class KivaServerUtils extends Mod {
     public static Set<String> playersExcludedFromRestrictiveMode;
     public static Set<String> playersMuted;
 
+    public static HashMap<String, ArrayList<String>> tpaRequests = new HashMap<>(); // String to, List<String> from
     public static HashMap<String, ProtectedRegion> protectedRegions = new HashMap<>();
 
     public static HashMap<String, Boolean> config = new HashMap<>();
@@ -23,7 +22,7 @@ public class KivaServerUtils extends Mod {
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
     public static HashMap<String, String> nameColorChoicesNames = new HashMap<>();
-    public static String version = "1.4.0";
+    public static String version = "1.5.0";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;

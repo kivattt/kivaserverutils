@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 
@@ -11,7 +12,7 @@ public class Teleport extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/teleport <x> <y> <z>";
+        return ChatColors.YELLOW + "/teleport <x> <y> <z>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

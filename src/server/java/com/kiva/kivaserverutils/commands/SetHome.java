@@ -13,7 +13,7 @@ public class SetHome extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/sethome";
+        return ChatColors.YELLOW + "/sethome";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

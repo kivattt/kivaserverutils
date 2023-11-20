@@ -14,7 +14,7 @@ public class PronounsSet extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/pronounsset <player> <pronouns>";
+        return ChatColors.YELLOW + "/pronounsset <player> <pronouns>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

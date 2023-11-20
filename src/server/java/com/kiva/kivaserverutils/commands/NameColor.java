@@ -11,11 +11,11 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
 public class NameColor extends CommandCompat{
     public NameColor(){
-        super("namecolor", false);
+        super("namecolor", false, false, new String[]{"namecolour"});
     }
 
-    public String commandSyntax(){
-        String ret = "§e/namecolor <color>\n§eAvailable colors:\n";
+    public String commandSyntax(final String commandUsed){
+        String ret = ChatColors.YELLOW + commandUsed + " <color>\n" + ChatColors.YELLOW + "Available colors:\n";
 
         for(Map.Entry<String, String> entry : KivaServerUtils.nameColorChoicesNames.entrySet())
             ret += entry.getValue() + entry.getKey() + "\n";
@@ -25,7 +25,7 @@ public class NameColor extends CommandCompat{
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
         if (args.length != 2){
-            sendUsageMessage(this.commandSyntax(), commandExecutor);
+            sendUsageMessage(this.commandSyntax(args[0]), commandExecutor);
             return;
         }
 

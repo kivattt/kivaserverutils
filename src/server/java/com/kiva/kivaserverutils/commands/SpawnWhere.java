@@ -14,7 +14,7 @@ public class SpawnWhere extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/spawnwhere";
+        return ChatColors.YELLOW + "/spawnwhere";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

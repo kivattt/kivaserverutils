@@ -14,6 +14,8 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String KSUBasePath = "mods/KivaServerUtils/";
@@ -111,6 +113,12 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new KivaVersion());
 
         CommandCompat.registerCommand(new Protect());
+
+        CommandCompat.registerCommand(new TPA());
+        CommandCompat.registerCommand(new TPARevoke());
+        CommandCompat.registerCommand(new TPAccept());
+        CommandCompat.registerCommand(new TPDeny());
+        CommandCompat.registerCommand(new TPACommandsDisabled());
 
         System.out.println("KivaServerUtils initialized");
     }

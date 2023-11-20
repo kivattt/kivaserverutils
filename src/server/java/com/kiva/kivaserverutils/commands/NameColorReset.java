@@ -11,11 +11,11 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
 public class NameColorReset extends CommandCompat{
     public NameColorReset(){
-        super("namecolorreset", false);
+        super("namecolorreset", false, false, new String[]{"namecolourreset"});
     }
 
-    public String commandSyntax(){
-        return "§e/namecolorreset";
+    public String commandSyntax(final String commandUsed){
+        return ChatColors.YELLOW + commandUsed;
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

@@ -1,6 +1,7 @@
 package com.kiva.kivaserverutils.commands;
 
 import com.fox2code.foxloader.loader.ServerMod;
+import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
@@ -13,7 +14,7 @@ public class NickSet extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/nickset <player> <nickname>";
+        return ChatColors.YELLOW + "/nickset <player> <nickname>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){

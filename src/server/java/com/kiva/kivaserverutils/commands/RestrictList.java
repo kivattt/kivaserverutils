@@ -11,7 +11,7 @@ public class RestrictList extends CommandCompat {
     public RestrictList(){super("restrictlist", true);}
 
     public String commandSyntax(){
-        return "§e/restrictlist";
+        return ChatColors.YELLOW + "/restrictlist";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {

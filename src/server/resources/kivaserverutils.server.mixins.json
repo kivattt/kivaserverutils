@@ -4,6 +4,7 @@
   "package": "com.kiva.server.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinChunk",
     "MixinContainer",
     "MixinEntityPlayer",
     "MixinExplosion",

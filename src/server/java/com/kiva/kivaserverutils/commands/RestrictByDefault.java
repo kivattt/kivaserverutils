@@ -13,7 +13,7 @@ public class RestrictByDefault extends CommandCompat {
     public RestrictByDefault(){super("restrictbydefault", true);}
 
     public String commandSyntax(){
-        return "§e/restrictbydefault <true or false>";
+        return ChatColors.YELLOW + "/restrictbydefault <true or false>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {

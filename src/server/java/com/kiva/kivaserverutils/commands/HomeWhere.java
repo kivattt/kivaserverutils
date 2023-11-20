@@ -13,7 +13,7 @@ public class HomeWhere extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return "§e/homewhere";
+        return ChatColors.YELLOW + "/homewhere";
     }
 
     // TODO Make DRY
