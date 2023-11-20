@@ -212,6 +212,8 @@ keep this in mind if you are writing mixins for this method
 You can control/query [restrictive mode](#restrictive-mode) in your own mods with this line of code (replace `isPlayerInRestrictiveMode` with whatever method you need):
 `ModLoader.getModContainer("kivaserverutils").getMod().getClass().getMethod("isPlayerInRestrictiveMode", String.class).invoke(null, "USERNAME GOES HERE");`
 
+The files stored by this mod only update when the server stops, so don't rely on reading them to get live data in your own mods. Instead, use the method mentioned above for any functions you need
+
 # Known issues
 Players can spawn randomly around the spawn set by `/spawnset`, so it's not always a perfect coordinate
 
