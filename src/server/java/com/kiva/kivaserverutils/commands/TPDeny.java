@@ -47,21 +47,27 @@ public class TPDeny extends CommandCompat {
 
         /* /tpdeny <player> - Deny teleport request from specific player */
         if (args.length == 2){
-            String playerName = args[1];
+            EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
+
+            if (player == null){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + args[1] + " not found");
+                return;
+            }
 
             // We don't check for tpdeny to self since it should never be possible anyway
 
-            if (!tpaRequestsToMe.contains(playerName)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + playerName + ChatColors.RED + " has not requested to be teleported");
+            if (!tpaRequestsToMe.contains(player.username)){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " has not requested to be teleported");
                 return;
             }
 
-            if (!denyTPARequestFromPlayer(commandExecutor, playerName)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + playerName + " not found");
+            // I suppose this case might be possible if player disconnects at the right time, keeping it just in case
+            if (!denyTPARequestFromPlayer(commandExecutor, player.username)){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + player.username + " not found");
                 return;
             }
 
-            tpaRequestsToMe.remove(playerName);
+            tpaRequestsToMe.remove(player.username);
             return;
         }
 
@@ -74,7 +80,7 @@ public class TPDeny extends CommandCompat {
             return false;
 
         player.displayChatMessage(ChatColors.RED + "Teleport request to " + ChatColors.RESET + commandExecutor.getPlayerName() + ChatColors.RED + " was denied");
-        commandExecutor.displayChatMessage(ChatColors.RED + "Teleport request from " + ChatColors.RESET + username + ChatColors.RED + " denied");
+        commandExecutor.displayChatMessage(ChatColors.RED + "Teleport request from " + ChatColors.RESET + player.username + ChatColors.RED + " denied");
 
         return true;
     }

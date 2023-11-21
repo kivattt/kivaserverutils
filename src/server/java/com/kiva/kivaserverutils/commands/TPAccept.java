@@ -5,6 +5,7 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import net.minecraft.src.game.entity.Entity;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
@@ -32,8 +33,6 @@ public class TPAccept extends CommandCompat {
             return;
         }
 
-        EntityPlayerMP me = ServerMod.toEntityPlayerMP(commandExecutor);
-
         /* /tpaccept - Accept all teleport requests */
         if (args.length == 1){
             boolean acceptSuccess = false;
@@ -49,21 +48,27 @@ public class TPAccept extends CommandCompat {
 
         /* /tpaccept <player> - Accept teleport request from specific player */
         if (args.length == 2){
-            String playerName = args[1];
+            EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
+
+            if (player == null){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + args[1] + " not found");
+                return;
+            }
 
             // We don't check for tpaccept to self since it should never be possible anyway
 
-            if (!tpaRequestsToMe.contains(playerName)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + playerName + ChatColors.RED + " has not requested to be teleported");
+            if (!tpaRequestsToMe.contains(player.username)){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " has not requested to be teleported");
                 return;
             }
 
-            if (!acceptTPARequestFromPlayer(commandExecutor, playerName)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + playerName + " not found");
+            // I suppose this case might be possible if player disconnects at the right time, keeping it just in case
+            if (!acceptTPARequestFromPlayer(commandExecutor, player.username)){
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + player.username + " not found");
                 return;
             }
 
-            tpaRequestsToMe.remove(playerName);
+            tpaRequestsToMe.remove(player.username);
             return;
         }
 
@@ -79,8 +84,8 @@ public class TPAccept extends CommandCompat {
         player.displayChatMessage(ChatColors.GREEN + "Teleport request to " + ChatColors.RESET + commandExecutor.getPlayerName() + ChatColors.GREEN + " was accepted");
 
         player.playerNetServerHandler.teleportTo(me.posX, me.posY, me.posZ, me.rotationYaw, me.rotationPitch);
-        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps(KivaServerUtils.KSUBroadcastPrefix + ChatColors.GREEN + "Teleporting " + ChatColors.RESET + username + ChatColors.GREEN + " to " + ChatColors.RESET + commandExecutor.getPlayerName());
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleport request from " + ChatColors.RESET + username + ChatColors.GREEN + " accepted");
+        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps(KivaServerUtils.KSUBroadcastPrefix + ChatColors.GREEN + "Teleporting " + ChatColors.RESET + player.username + ChatColors.GREEN + " to " + ChatColors.RESET + commandExecutor.getPlayerName());
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleport request from " + ChatColors.RESET + player.username + ChatColors.GREEN + " accepted");
 
         return true;
     }

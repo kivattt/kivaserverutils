@@ -32,7 +32,7 @@ public class TPA extends CommandCompat {
 
         String targetName = args[1];
 
-        if (targetName.equals(commandExecutor.getPlayerName())){
+        if (targetName.equalsIgnoreCase(commandExecutor.getPlayerName())){
             commandExecutor.displayChatMessage(ChatColors.RED + "You can't teleport to yourself");
             return;
         }
@@ -44,18 +44,18 @@ public class TPA extends CommandCompat {
             return;
         }
 
-        KivaServerUtils.tpaRequests.putIfAbsent(targetName, new ArrayList<>());
+        KivaServerUtils.tpaRequests.putIfAbsent(targetPlayer.username, new ArrayList<>());
 
-        if (KivaServerUtils.tpaRequests.get(targetName).contains(commandExecutor.getPlayerName())){
+        if (KivaServerUtils.tpaRequests.get(targetPlayer.username).contains(commandExecutor.getPlayerName())){
             commandExecutor.displayChatMessage(ChatColors.YELLOW + "You've already sent a teleport request");
             return;
         }
 
-        KivaServerUtils.tpaRequests.get(targetName).add(commandExecutor.getPlayerName());
+        KivaServerUtils.tpaRequests.get(targetPlayer.username).add(commandExecutor.getPlayerName());
 
         targetPlayer.displayChatMessage(ChatColors.GREEN + "New teleport request from " + ChatColors.RESET + commandExecutor.getPlayerName());
         targetPlayer.displayChatMessage(ChatColors.YELLOW + "/tpaccept or /tpdeny");
 
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "Sent teleport request to " + ChatColors.RESET + targetName);
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Sent teleport request to " + ChatColors.RESET + targetPlayer.username);
     }
 }

@@ -27,30 +27,30 @@ public class TPARevoke extends CommandCompat {
             return;
         }
 
-        if (args.length == 1){
-            boolean revokedAny = false;
-
-            for (Map.Entry<String, ArrayList<String>> entry : KivaServerUtils.tpaRequests.entrySet()){
-                if (entry.getValue().contains(commandExecutor.getPlayerName())) {
-                    EntityPlayerMP targetPlayer = ServerMod.getGameInstance().configManager.getPlayerEntity(entry.getKey());
-                    if (targetPlayer != null)
-                        targetPlayer.displayChatMessage(commandExecutor.getPlayerName() + ChatColors.RED + " revoked their teleport request");
-
-                    commandExecutor.displayChatMessage(ChatColors.RED + "Revoked teleport request to " + ChatColors.RESET + entry.getKey());
-
-                    entry.getValue().remove(commandExecutor.getPlayerName());
-                    revokedAny = true;
-                }
-            }
-
-            if (!revokedAny){
-                commandExecutor.displayChatMessage(ChatColors.RED + "No teleport requests to revoke");
-                return;
-            }
-
+        if (args.length != 1){
+            sendUsageMessage(commandSyntax(), commandExecutor);
             return;
         }
 
-        sendUsageMessage(commandSyntax(), commandExecutor);
+        boolean revokedAny = false;
+
+        for (Map.Entry<String, ArrayList<String>> entry : KivaServerUtils.tpaRequests.entrySet()){
+            if (entry.getValue().contains(commandExecutor.getPlayerName())) {
+                EntityPlayerMP targetPlayer = ServerMod.getGameInstance().configManager.getPlayerEntity(entry.getKey());
+                if (targetPlayer != null) {
+                    targetPlayer.displayChatMessage(commandExecutor.getPlayerName() + ChatColors.RED + " revoked their teleport request");
+                    commandExecutor.displayChatMessage(ChatColors.RED + "Revoked teleport request to " + ChatColors.RESET + targetPlayer.username);
+                } else{
+                    commandExecutor.displayChatMessage(ChatColors.RED + "Revoked teleport request to " + ChatColors.RESET + entry.getKey());
+                }
+
+
+                entry.getValue().remove(commandExecutor.getPlayerName());
+                revokedAny = true;
+            }
+        }
+
+        if (!revokedAny)
+            commandExecutor.displayChatMessage(ChatColors.RED + "No teleport requests to revoke");
     }
 }
