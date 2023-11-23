@@ -22,7 +22,7 @@ public class KivaServerUtils extends Mod {
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
     public static HashMap<String, String> nameColorChoicesNames = new HashMap<>();
-    public static String version = "1.5.1";
+    public static String version = "1.5.2";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;

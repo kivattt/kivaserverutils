@@ -35,14 +35,16 @@ public class TPAccept extends CommandCompat {
 
         /* /tpaccept - Accept all teleport requests */
         if (args.length == 1){
-            boolean acceptSuccess = false;
-            for (String playerName : tpaRequestsToMe)
-                acceptSuccess |= acceptTPARequestFromPlayer(commandExecutor, playerName);
-
-            if (!acceptSuccess)
+            if (tpaRequestsToMe.isEmpty()){
                 commandExecutor.displayChatMessage(ChatColors.RED + "No teleport requests to accept");
+                return;
+            }
 
-            KivaServerUtils.tpaRequests.get(commandExecutor.getPlayerName()).clear();
+            for (String playerName : tpaRequestsToMe){
+                if (acceptTPARequestFromPlayer(commandExecutor, playerName))
+                    tpaRequestsToMe.remove(playerName);
+            }
+
             return;
         }
 
@@ -51,7 +53,7 @@ public class TPAccept extends CommandCompat {
             EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
 
             if (player == null){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + args[1] + " not found");
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
                 return;
             }
 
@@ -63,10 +65,8 @@ public class TPAccept extends CommandCompat {
             }
 
             // I suppose this case might be possible if player disconnects at the right time, keeping it just in case
-            if (!acceptTPARequestFromPlayer(commandExecutor, player.username)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + player.username + " not found");
+            if (!acceptTPARequestFromPlayer(commandExecutor, player.username))
                 return;
-            }
 
             tpaRequestsToMe.remove(player.username);
             return;
@@ -78,8 +78,21 @@ public class TPAccept extends CommandCompat {
     public boolean acceptTPARequestFromPlayer(NetworkPlayer commandExecutor, final String username){
         EntityPlayerMP me = ServerMod.toEntityPlayerMP(commandExecutor);
         EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(username);
-        if (player == null)
+        if (player == null) {
+            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " not found");
             return false;
+        }
+
+        if (me.dimension != player.dimension){
+            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " is in another dimension");
+            return false;
+        }
+
+        // Theoretically possible with the player changing username
+        if (me.username.equals(player.username)){
+            commandExecutor.displayChatMessage(ChatColors.RED + "You can't teleport to yourself");
+            return false;
+        }
 
         player.displayChatMessage(ChatColors.GREEN + "Teleport request to " + ChatColors.RESET + commandExecutor.getPlayerName() + ChatColors.GREEN + " was accepted");
 

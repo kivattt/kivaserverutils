@@ -4,13 +4,13 @@ buildscript {
         maven { url 'https://jitpack.io/' }
     }
     dependencies {
-        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.24')
+        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.25')
     }
 }
 
 apply plugin: 'foxloader.dev'
 
-version '1.5.1'
+version '1.5.2'
 
 foxloader {
     // forceReload = true

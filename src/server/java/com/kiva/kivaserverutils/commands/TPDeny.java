@@ -50,7 +50,7 @@ public class TPDeny extends CommandCompat {
             EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
 
             if (player == null){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + args[1] + " not found");
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
                 return;
             }
 
@@ -63,7 +63,7 @@ public class TPDeny extends CommandCompat {
 
             // I suppose this case might be possible if player disconnects at the right time, keeping it just in case
             if (!denyTPARequestFromPlayer(commandExecutor, player.username)){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + player.username + " not found");
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " not found");
                 return;
             }
 
