@@ -5,6 +5,7 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.NicknameToUsername;
 import net.minecraft.src.game.entity.Entity;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
@@ -35,14 +36,10 @@ public class TPAccept extends CommandCompat {
 
         /* /tpaccept - Accept all teleport requests */
         if (args.length == 1){
-            if (tpaRequestsToMe.isEmpty()){
-                commandExecutor.displayChatMessage(ChatColors.RED + "No teleport requests to accept");
-                return;
-            }
-
-            for (String playerName : tpaRequestsToMe){
-                if (acceptTPARequestFromPlayer(commandExecutor, playerName))
-                    tpaRequestsToMe.remove(playerName);
+            // No foreach to prevent "An internal error happened" message
+            for (int i = 0; i < tpaRequestsToMe.size(); i++){
+                if (acceptTPARequestFromPlayer(commandExecutor, tpaRequestsToMe.get(i)))
+                    tpaRequestsToMe.remove(i--);
             }
 
             return;
@@ -53,8 +50,13 @@ public class TPAccept extends CommandCompat {
             EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
 
             if (player == null){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
-                return;
+                // If a username was not found, try looking up as nickname
+                player = ServerMod.getGameInstance().configManager.getPlayerEntity(NicknameToUsername.nicknameToUsername(args[1], commandExecutor.getPlayerName()));
+
+                if (player == null) {
+                    commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
+                    return;
+                }
             }
 
             // We don't check for tpaccept to self since it should never be possible anyway
@@ -83,11 +85,6 @@ public class TPAccept extends CommandCompat {
             return false;
         }
 
-        if (me.dimension != player.dimension){
-            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " is in another dimension");
-            return false;
-        }
-
         // Theoretically possible with the player changing username
         if (me.username.equals(player.username)){
             commandExecutor.displayChatMessage(ChatColors.RED + "You can't teleport to yourself");
@@ -95,6 +92,9 @@ public class TPAccept extends CommandCompat {
         }
 
         player.displayChatMessage(ChatColors.GREEN + "Teleport request to " + ChatColors.RESET + commandExecutor.getPlayerName() + ChatColors.GREEN + " was accepted");
+
+        if (me.dimension != player.dimension)
+            player.sendPlayerThroughPortalRegistered();
 
         player.playerNetServerHandler.teleportTo(me.posX, me.posY, me.posZ, me.rotationYaw, me.rotationPitch);
         ServerMod.getGameInstance().configManager.sendChatMessageToAllOps(KivaServerUtils.KSUBroadcastPrefix + ChatColors.GREEN + "Teleporting " + ChatColors.RESET + player.username + ChatColors.GREEN + " to " + ChatColors.RESET + commandExecutor.getPlayerName());

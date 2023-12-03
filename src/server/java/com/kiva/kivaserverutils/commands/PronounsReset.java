@@ -19,12 +19,12 @@ public class PronounsReset extends CommandCompat{
         if (commandExecutor.isOperator()){
             if (args.length == 2){
                 KivaServerUtils.playerPronouns.remove(args[1]);
-                ServerMod.getGameInstance().configManager.sendChatMessageToAllOps("Pronouns of " + args[1] + " reset!");
+                ServerMod.getGameInstance().configManager.sendChatMessageToAllOps(KivaServerUtils.KSUBroadcastPrefix + ChatColors.YELLOW + "Pronouns of " + ChatColors.RESET + args[1] + ChatColors.YELLOW + " reset by " + ChatColors.RESET + commandExecutor.getPlayerName());
                 return;
             }
         }
 
         KivaServerUtils.playerPronouns.remove(commandExecutor.getPlayerName());
-        commandExecutor.displayChatMessage("Pronouns reset!");
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Pronouns reset!");
     }
 }

@@ -1,3 +1,7 @@
+- Chat messages stored in a file with the normal Minecraft language format string system
+
+- Clean up the `/*list` and `/*listall` commands with optional "all" argument so it would be `/*list all`. Alternatively do an alias with an if for it
+
 - Better system for configuration, less confusing commands (something like /gamerule \<key> \<value>) 
 - In `/spawn`, `/teleport`, `/home` commands check if the target chunk is loaded by the player
 and if not, warn them to try relogging if they're stuck in air

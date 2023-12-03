@@ -6,8 +6,12 @@ import net.minecraft.src.game.entity.player.EntityPlayerMP;
 import java.util.Map;
 
 public class NicknameAllowed {
-    public static boolean nicknameIsAllowed(final String nickname){
+    public static boolean nicknameIsAllowed(final String nickname, final String ownerToIgnore){
         for (Map.Entry<String, String> playerNick : KivaServerUtils.playerNicknames.entrySet()){
+            // Ignore ourselves
+            if (playerNick.getKey().equalsIgnoreCase(ownerToIgnore))
+                continue;
+
             // Check if someone already has the nickname
             if (playerNick.getValue().equalsIgnoreCase(nickname))
                 return false;
@@ -25,6 +29,9 @@ public class NicknameAllowed {
 
         // Check if nickname matches any username of currently online players
         for (EntityPlayerMP p : ServerMod.getOnlinePlayers()){
+            if (p.username.equalsIgnoreCase(ownerToIgnore))
+                continue;
+
             if (p.username.equalsIgnoreCase(nickname))
                 return false;
         }

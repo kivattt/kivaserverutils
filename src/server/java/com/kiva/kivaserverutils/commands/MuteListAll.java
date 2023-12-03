@@ -1,17 +1,14 @@
 package com.kiva.kivaserverutils.commands;
 
-import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
 
-import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
+public class MuteListAll extends CommandCompat {
+    public MuteListAll(){super("mutelistall", false);}
 
-public class MuteList extends CommandCompat {
-    public MuteList(){super("mutelist", false);}
-
-    public String commandSyntax(){return ChatColors.YELLOW + "/mutelist";}
+    public String commandSyntax(){return ChatColors.YELLOW + "/mutelistall";}
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {
         if (KivaServerUtils.playersMuted.isEmpty()){
@@ -21,9 +18,7 @@ public class MuteList extends CommandCompat {
 
         commandExecutor.displayChatMessage(ChatColors.BOLD + ChatColors.BLUE + "Players muted:");
 
-        for (String playerName : KivaServerUtils.playersMuted) {
-            if (ServerMod.getGameInstance().configManager.getPlayerEntity(playerName) != null)
-                commandExecutor.displayChatMessage(playerName);
-        }
+        for (String playerName : KivaServerUtils.playersMuted)
+            commandExecutor.displayChatMessage(playerName);
     }
 }

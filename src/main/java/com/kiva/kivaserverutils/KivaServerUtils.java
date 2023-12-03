@@ -21,8 +21,8 @@ public class KivaServerUtils extends Mod {
     public static Coordinate spawnCommandLocation = null;
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
-    public static HashMap<String, String> nameColorChoicesNames = new HashMap<>();
-    public static String version = "1.5.2";
+    public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
+    public static String version = "1.6.0";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
@@ -87,7 +87,7 @@ public class KivaServerUtils extends Mod {
 
     public static Pair<String, Boolean> inProtectedRegion(final int x, final int y, final int z, final int dimension){
         if (KivaServerUtils.protectedRegions.isEmpty())
-            return new Pair<String, Boolean>("", false);
+            return new Pair<>("", false);
 
         // TODO Calculate distance to region (taking into account (cached?) "radiuses" (max to prevent false-positives)) to ignore some regions, saving on performance
         // TODO Could separate out into 2 hashmaps based on dimension to speed it up even more

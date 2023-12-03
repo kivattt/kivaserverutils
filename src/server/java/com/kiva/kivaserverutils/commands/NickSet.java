@@ -5,6 +5,7 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.NicknameAllowed;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
@@ -27,7 +28,7 @@ public class NickSet extends CommandCompat{
         String nicknameLowerCase = nickname.toLowerCase();
 
         if (nickname.length() > 16){
-            commandExecutor.displayChatMessage("Nickname too long, max length is 16");
+            commandExecutor.displayChatMessage(ChatColors.RED + "Nickname too long, max length is 16");
             return;
         }
 
@@ -35,12 +36,20 @@ public class NickSet extends CommandCompat{
 
         for (int i = 0; i < nicknameLowerCase.length(); i++){
             if (allowedChars.indexOf(nicknameLowerCase.charAt(i)) == -1){
-                commandExecutor.displayChatMessage("Disallowed character(s), only a-z (case-insensitive), 0-9 and symbols -_ allowed");
+                commandExecutor.displayChatMessage(ChatColors.RED + "Disallowed character(s), only a-z (case-insensitive), 0-9 and symbols -_ allowed");
                 return;
             }
         }
 
+        if (!NicknameAllowed.nicknameIsAllowed(nickname, args[1])){
+            commandExecutor.displayChatMessage(ChatColors.RED + "Someone else already has that nickname/username");
+            return;
+        }
+
+        if (ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]) == null)
+            commandExecutor.displayChatMessage(ChatColors.YELLOW + "Player " + ChatColors.RESET + args[1] + ChatColors.YELLOW + " is not on the server");
+
         KivaServerUtils.playerNicknames.put(args[1], nickname);
-        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps("Nickname of " + args[1] + "set to " + nickname + "!");
+        ServerMod.getGameInstance().configManager.sendChatMessageToAllOps(KivaServerUtils.KSUBroadcastPrefix + ChatColors.GREEN + "Nickname of " + ChatColors.RESET + args[1] + ChatColors.GREEN + " set to " + ChatColors.RESET + nickname);
     }
 }

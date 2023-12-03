@@ -67,7 +67,13 @@ Deny a teleport request
 `/nick <nickname>`\
 Give yourself a nickname in chat
 
+`/nameof <nickname>`\
+Look up the real username from nickname
+
 `/nicklist`\
+See the nicknames of everyone currently in the server
+
+`/nicklistall`\
 See everyone's nicknames
 
 `/nickset <player> <nickname>` (OP-only command)\
@@ -85,6 +91,9 @@ When player supplied, an OP can force reset a players nickname
 Give yourself pronouns in chat
 
 `/pronounslist`\
+See the pronouns of everyone currently in the server
+
+`/pronounslistall`\
 See everyone's pronouns
 
 `/pronounsset <player> <pronouns>` (OP-only command)\
@@ -113,6 +122,9 @@ Toggles preventing the player from sending chat messages\
 Commands are still allowed while muted, except for /me and /tell
 
 `/mutelist`\
+Lists muted players currently in the server
+
+`/mutelistall`\
 Lists all muted players
 </details>
 
@@ -123,6 +135,9 @@ Lists all muted players
 Toggles [restrictive mode](#restrictive-mode)
 
 `/restrictlist` (OP-only command)\
+Lists players in [restrictive mode](#restrictive-mode) currently in the server
+
+`/restrictlistall` (OP-only command)\
 Lists all players in [restrictive mode](#restrictive-mode)
 
 `/restrictbydefault <true or false>` (OP-only command)\
@@ -132,6 +147,9 @@ All players will be in [restrictive mode](#restrictive-mode) when `true` (`/rest
 Excludes player from restrictive mode when `/restrictbydefault` is true
 
 `/restrictexcludelist` (OP-only command)\
+List players excluded from restrictive mode currently in the server
+
+`/restrictexcludelistall` (OP-only command)\
 Lists all players excluded from restrictive mode
 </details>
 
@@ -215,6 +233,8 @@ You can control/query [restrictive mode](#restrictive-mode) in your own mods wit
 The files stored by this mod only update when the server stops, so don't rely on reading them to get live data in your own mods. Instead, use the method mentioned above for any functions you need
 
 # Known issues
+It can take a long while before you become visible to other players after being teleported with `/tpa` for some reason
+
 Players can spawn randomly around the spawn set by `/spawnset`, so it's not always a perfect coordinate
 
 Doing `/sethome` then covering up the home location with blocks, unloading the chunk its in,

@@ -5,6 +5,7 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.NicknameToUsername;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
@@ -50,8 +51,13 @@ public class TPDeny extends CommandCompat {
             EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(args[1]);
 
             if (player == null){
-                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
-                return;
+                // If a username was not found, try looking up as nickname
+                player = ServerMod.getGameInstance().configManager.getPlayerEntity(NicknameToUsername.nicknameToUsername(args[1], commandExecutor.getPlayerName()));
+
+                if (player == null) {
+                    commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + args[1] + ChatColors.RED + " not found");
+                    return;
+                }
             }
 
             // We don't check for tpdeny to self since it should never be possible anyway

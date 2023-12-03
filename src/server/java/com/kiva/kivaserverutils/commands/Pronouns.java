@@ -25,19 +25,19 @@ public class Pronouns extends CommandCompat{
         String pronouns = args[1].toLowerCase();
 
         if (pronouns.length() > 15){
-            commandExecutor.displayChatMessage("Pronouns too long, max length is 15");
+            commandExecutor.displayChatMessage(ChatColors.RED + "Pronouns too long, max length is 15");
             return;
         }
 
         String allowedChars = "/abcdefghijklmnopqrstuvwxyz";
         for (int i = 0; i < pronouns.length(); i++){
             if (allowedChars.indexOf(pronouns.charAt(i)) == -1){
-                commandExecutor.displayChatMessage("Disallowed character(s), only a-z and / allowed");
+                commandExecutor.displayChatMessage(ChatColors.RED + "Disallowed character(s), only a-z and / allowed");
                 return;
             }
         }
 
         KivaServerUtils.playerPronouns.put(commandExecutor.getPlayerName(), pronouns);
-        commandExecutor.displayChatMessage("Pronouns set! [" + ChatColors.GREEN + pronouns + ChatColors.RESET + "]");
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Pronouns set! [" + ChatColors.RESET + pronouns + ChatColors.GREEN + "]");
     }
 }

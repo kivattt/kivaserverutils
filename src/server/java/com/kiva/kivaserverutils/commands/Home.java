@@ -36,10 +36,8 @@ public class Home extends CommandCompat{
             return;
         }
 
-        if (homeCoordinate.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension){
-            commandExecutor.displayChatMessage(ChatColors.YELLOW + "Your home is in the " + Coordinate.dimensionToString(homeCoordinate.dimension) + ", unable to teleport you");
-            return;
-        }
+        if (homeCoordinate.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension)
+            commandExecutor.sendPlayerThroughPortalRegistered();
 
         // Scrapped code attempting to fix the issue mention in the README.md Known Issues
         // It seems getBlockId() doesn't work when the chunk isnt loaded, defeating the purpose entirely

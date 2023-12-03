@@ -1,18 +1,17 @@
 package com.kiva.kivaserverutils.commands;
 
-import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
 
-public class NickList extends CommandCompat{
-    public NickList(){
-        super("nicklist", false);
+public class NickListAll extends CommandCompat{
+    public NickListAll(){
+        super("nicklistall", false);
     }
 
     public String commandSyntax(){
-        return ChatColors.YELLOW + "/nicklist";
+        return ChatColors.YELLOW + "/nicklistall";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
@@ -21,11 +20,10 @@ public class NickList extends CommandCompat{
             return;
         }
 
-        commandExecutor.displayChatMessage(ChatColors.BOLD + ChatColors.DARK_AQUA + "Online players nicknames:" + ChatColors.RESET);
+        commandExecutor.displayChatMessage(ChatColors.BOLD + ChatColors.DARK_AQUA + "All players nicknames:" + ChatColors.RESET);
 
         for (String playerName : KivaServerUtils.playerNicknames.keySet()){
-            if (ServerMod.getGameInstance().configManager.getPlayerEntity(playerName) != null)
-                commandExecutor.displayChatMessage(playerName + ChatColors.DARK_AQUA + " : " + ChatColors.GRAY + KivaServerUtils.playerNicknames.get(playerName));
+            commandExecutor.displayChatMessage(playerName + ChatColors.DARK_AQUA + " : " + ChatColors.GRAY + KivaServerUtils.playerNicknames.get(playerName));
         }
     }
 }

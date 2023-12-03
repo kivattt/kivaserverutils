@@ -5,6 +5,7 @@ import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
+import com.kiva.kivaserverutils.NicknameToUsername;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
@@ -32,22 +33,27 @@ public class TPA extends CommandCompat {
 
         String targetName = args[1];
 
-        if (targetName.equalsIgnoreCase(commandExecutor.getPlayerName())){
-            commandExecutor.displayChatMessage(ChatColors.RED + "You can't teleport to yourself");
-            return;
-        }
-
         EntityPlayerMP targetPlayer = ServerMod.getGameInstance().configManager.getPlayerEntity(targetName);
 
         if (targetPlayer == null){
-            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + targetName + ChatColors.RED + " not found");
-            return;
+            // If a username was not found, try looking up as nickname
+            targetPlayer = ServerMod.getGameInstance().configManager.getPlayerEntity(NicknameToUsername.nicknameToUsername(targetName, commandExecutor.getPlayerName()));
+
+            if (targetPlayer == null) {
+                commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + targetName + ChatColors.RED + " not found");
+                return;
+            }
         }
 
         KivaServerUtils.tpaRequests.putIfAbsent(targetPlayer.username, new ArrayList<>());
 
         if (KivaServerUtils.tpaRequests.get(targetPlayer.username).contains(commandExecutor.getPlayerName())){
             commandExecutor.displayChatMessage(ChatColors.YELLOW + "You've already sent a teleport request");
+            return;
+        }
+
+        if (targetPlayer.username.equalsIgnoreCase(commandExecutor.getPlayerName())){
+            commandExecutor.displayChatMessage(ChatColors.RED + "You can't teleport to yourself");
             return;
         }
 

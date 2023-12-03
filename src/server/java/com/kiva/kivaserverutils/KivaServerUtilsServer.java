@@ -55,26 +55,34 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
             System.out.println("+----------------------------------------------------------------------+");
         }
 
-        // Let me know if there's a better way to do this
-        nameColorChoicesNames.put("black", ChatColors.BLACK);
-        nameColorChoicesNames.put("darkblue", ChatColors.DARK_BLUE);
-        nameColorChoicesNames.put("darkgreen", ChatColors.DARK_GREEN);
-        nameColorChoicesNames.put("darkaqua", ChatColors.DARK_AQUA);
-        nameColorChoicesNames.put("darkred", ChatColors.DARK_RED);
-        nameColorChoicesNames.put("darkpurple", ChatColors.DARK_PURPLE);
-        nameColorChoicesNames.put("gold", ChatColors.GOLD);
+        // Let me know if there's a better way to do this (Probably .toString with toLower())
+        nameColorChoicesNames.put("white", ChatColors.WHITE);
         nameColorChoicesNames.put("gray", ChatColors.GRAY);
         nameColorChoicesNames.put("darkgray", ChatColors.DARK_GRAY);
-        nameColorChoicesNames.put("blue", ChatColors.BLUE);
-        nameColorChoicesNames.put("aqua", ChatColors.AQUA); // Default color
-        //colorNames.put("red", ChatColors.RED); // Reserved for operators as default color
-        nameColorChoicesNames.put("lightpurple", ChatColors.LIGHT_PURPLE);
+        nameColorChoicesNames.put("black", ChatColors.BLACK);
+
         nameColorChoicesNames.put("yellow", ChatColors.YELLOW);
-        nameColorChoicesNames.put("white", ChatColors.WHITE);
+        nameColorChoicesNames.put("gold", ChatColors.GOLD);
+
+        nameColorChoicesNames.put("green", ChatColors.GREEN);
+        nameColorChoicesNames.put("darkgreen", ChatColors.DARK_GREEN);
+
+        nameColorChoicesNames.put("aqua", ChatColors.AQUA); // Default color
+        nameColorChoicesNames.put("darkaqua", ChatColors.DARK_AQUA);
+        nameColorChoicesNames.put("blue", ChatColors.BLUE);
+        nameColorChoicesNames.put("darkblue", ChatColors.DARK_BLUE);
+
+        nameColorChoicesNames.put("pink", ChatColors.LIGHT_PURPLE);
+        nameColorChoicesNames.put("purple", ChatColors.DARK_PURPLE);
+        nameColorChoicesNames.put("red", ChatColors.DARK_RED);
+
+        //colorNames.put("red", ChatColors.RED); // Reserved for operators as default color
         //colorNames.put("rainbow", ChatColors.RAINBOW); // Bugged in ReIndev 2.8.1_04
 
         CommandCompat.registerCommand(new Nick());
+        CommandCompat.registerCommand(new NameOf());
         CommandCompat.registerCommand(new NickList());
+        CommandCompat.registerCommand(new NickListAll());
         CommandCompat.registerCommand(new NickSet());
         CommandCompat.registerCommand(new NickReset());
 
@@ -83,6 +91,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
 
         CommandCompat.registerCommand(new Pronouns());
         CommandCompat.registerCommand(new PronounsList());
+        CommandCompat.registerCommand(new PronounsListAll());
         CommandCompat.registerCommand(new PronounsSet());
         CommandCompat.registerCommand(new PronounsReset());
 
@@ -97,11 +106,16 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
 
         CommandCompat.registerCommand(new Mute());
         CommandCompat.registerCommand(new MuteList());
+        CommandCompat.registerCommand(new MuteListAll());
 
         CommandCompat.registerCommand(new Restrict());
         CommandCompat.registerCommand(new RestrictList());
+        CommandCompat.registerCommand(new RestrictListAll());
+
         CommandCompat.registerCommand(new RestrictExclude());
         CommandCompat.registerCommand(new RestrictExcludeList());
+        CommandCompat.registerCommand(new RestrictExcludeListAll());
+
         CommandCompat.registerCommand(new RestrictByDefault());
 
         CommandCompat.registerCommand(new KivaShowConfig());
@@ -121,6 +135,14 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new TPACommandsDisabled());
 
         System.out.println("KivaServerUtils initialized");
+    }
+
+    // Let's revoke all tpa requests from the player on disconnect
+    @Override
+    public boolean onNetworkPlayerDisconnected(NetworkPlayer networkPlayer, String kickMessage, boolean cancelled) {
+        for (Map.Entry<String, ArrayList<String>> entry : KivaServerUtils.tpaRequests.entrySet())
+            entry.getValue().remove(networkPlayer.getPlayerName());
+        return false;
     }
 
     @Override
@@ -152,13 +174,18 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     }
 
     public boolean handleRestrictiveModeAndRegionProtection(NetworkPlayer networkPlayer, final int x, final int y, final int z){
+        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z, true);
+    }
+    public boolean handleRestrictiveModeAndRegionProtection(NetworkPlayer networkPlayer, final int x, final int y, final int z, boolean sendNotifyMsg){
         boolean isRestrictiveMode = KivaServerUtils.isPlayerInRestrictiveMode(networkPlayer.getPlayerName());
         Pair<String, Boolean> protectedRegion = KivaServerUtils.inProtectedRegion(x, y, z, ((EntityPlayerMP)networkPlayer).dimension);
 
-        if (isRestrictiveMode)
-            networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
-        else if (protectedRegion.second)
-            networkPlayer.displayChatMessage(KivaServerUtils.notifyProtectedRegion + protectedRegion.first);
+        if (sendNotifyMsg) {
+            if (isRestrictiveMode)
+                networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
+            else if (protectedRegion.second)
+                networkPlayer.displayChatMessage(KivaServerUtils.notifyProtectedRegion + protectedRegion.first);
+        }
 
         return isRestrictiveMode | protectedRegion.second;
     }
@@ -166,7 +193,9 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     // Prevents breaking blocks while in restrictive mode
     @Override
     public boolean onPlayerStartBreakBlock(NetworkPlayer networkPlayer, RegisteredItemStack itemStack, int x, int y, int z, int facing, boolean cancelled) {
-        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z);
+        // We don't output notify message while in survival, would be too much output in chat with it
+        // Has to be enabled for creative mode, since this event actually cancels properly in creative mode
+        return handleRestrictiveModeAndRegionProtection(networkPlayer, x, y, z, ((EntityPlayerMP)networkPlayer).gamemode != 0);
     }
 
     @Override

@@ -24,10 +24,8 @@ public class Spawn extends CommandCompat{
             return;
         }
 
-        if (spawnCommandLocation.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension){
-            commandExecutor.displayChatMessage(ChatColors.YELLOW + "Spawn is in the " + Coordinate.dimensionToString(spawnCommandLocation.dimension) + ", unable to teleport you");
-            return;
-        }
+        if (spawnCommandLocation.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension)
+            commandExecutor.sendPlayerThroughPortalRegistered();
 
         commandExecutor.teleportRegistered(spawnCommandLocation.x, spawnCommandLocation.y, spawnCommandLocation.z);
         commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleported to spawn!");
