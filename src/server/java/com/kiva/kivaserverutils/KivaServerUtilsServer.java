@@ -134,6 +134,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new TPDeny());
         CommandCompat.registerCommand(new TPACommandsDisabled());
 
+        CommandCompat.registerCommand(new FallDamageDisabled());
+
         System.out.println("KivaServerUtils initialized");
     }
 

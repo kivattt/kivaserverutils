@@ -197,6 +197,9 @@ Enable/disable the `/home` and `/sethome` commands
 `/tpacommandsdisabled <true or false>` (OP-only command)\
 Enable/disable the `/tpa`, `/tpaccept`, `/tprevoke`, and `/tpdeny` commands
 
+`/falldamagedisabled <true or false>` (OP-only command)\
+Enable/disable fall damage
+
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 </details>
