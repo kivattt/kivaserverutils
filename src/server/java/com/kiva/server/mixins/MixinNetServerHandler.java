@@ -1,10 +1,12 @@
 package com.kiva.server.mixins;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.kiva.kivaserverutils.KivaServerUtils;
 import com.kiva.kivaserverutils.Pair;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
+import net.minecraft.src.server.ChatAllowedCharacters;
 import net.minecraft.src.server.packets.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -89,6 +91,23 @@ public abstract class MixinNetServerHandler {
             playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
             ci.cancel();
         }
+
+        String signText = "";
+        for (String line : packet130UpdateSign.signLines) {
+            boolean discard = line.length() > 15;
+
+            for (int i = 0; i < line.length(); i++){
+                if (ChatAllowedCharacters.allowedCharacters.indexOf(line.charAt(i)) < 0) {
+                    discard = true;
+                    break;
+                }
+            }
+
+            if (!discard)
+                signText += line + "\n";
+        }
+
+        ServerMod.getGameInstance().logWarning(playerEntity.username + " placed/edited sign @ x:" + packet130UpdateSign.xPosition + ", y:" + packet130UpdateSign.yPosition + ", z:" + packet130UpdateSign.zPosition + " with text:\n" + signText);
 
         Pair<String, Boolean> protectedRegion = KivaServerUtils.inProtectedRegion(packet130UpdateSign.xPosition, packet130UpdateSign.yPosition, packet130UpdateSign.zPosition, playerEntity.dimension);
 
