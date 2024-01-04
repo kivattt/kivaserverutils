@@ -32,7 +32,7 @@ public class FallDamageDisabled extends CommandCompat{
         boolean value = args[1].equalsIgnoreCase("true");
 
         KivaServerUtils.config.put("falldamagedisabled", value);
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "falldamagedisabled now set to: " + ChatColors.RESET + value);
+        //commandExecutor.displayChatMessage(ChatColors.GREEN + "falldamagedisabled now set to: " + ChatColors.RESET + value);
         ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "Fall damage is now " + (value ? "disabled" : "enabled")));
     }
 }

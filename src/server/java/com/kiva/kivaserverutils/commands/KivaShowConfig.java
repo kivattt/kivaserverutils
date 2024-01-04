@@ -18,12 +18,12 @@ public class KivaShowConfig extends CommandCompat{
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
         if (KivaServerUtils.config.isEmpty()){
-            commandExecutor.displayChatMessage(ChatColors.YELLOW + "Kiva config is empty");
+            commandExecutor.displayChatMessage(ChatColors.YELLOW + "KivaServerUtils config is empty");
             return;
         }
 
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "Kiva config:" + ChatColors.RESET);
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "KivaServerUtils config:" + ChatColors.RESET);
         for (Map.Entry<String, Boolean> entry : KivaServerUtils.config.entrySet())
-            commandExecutor.displayChatMessage(entry.getKey() + " = " + entry.getValue().toString());
+            commandExecutor.displayChatMessage(entry.getKey() + " = " + (entry.getValue() ? ChatColors.DARK_RED : ChatColors.GRAY) + entry.getValue());
     }
 }

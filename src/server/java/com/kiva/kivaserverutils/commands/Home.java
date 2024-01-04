@@ -6,8 +6,6 @@ import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.Coordinate;
 import com.kiva.kivaserverutils.KivaServerUtils;
-import net.minecraft.src.game.block.Block;
-import net.minecraft.src.game.level.WorldServer;
 
 public class Home extends CommandCompat{
     public Home(){
@@ -15,7 +13,7 @@ public class Home extends CommandCompat{
     }
 
     public String commandSyntax(){
-        return ChatColors.YELLOW + "/home";
+        return ChatColors.YELLOW + "/home <optional name>";
     }
 
     // TODO Make DRY
@@ -25,21 +23,37 @@ public class Home extends CommandCompat{
             return;
         }
 
-        if (KivaServerUtils.playerHomes == null){
-            commandExecutor.displayChatMessage(ChatColors.RED + "You have no home, use /sethome");
+        if (KivaServerUtils.playerHomes == null || KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()) == null){
+            commandExecutor.displayChatMessage(ChatColors.RED + "You have no homes, use /sethome");
             return;
         }
 
-        Coordinate homeCoordinate = KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName());
-        if (homeCoordinate == null){
-            commandExecutor.displayChatMessage(ChatColors.RED + "You have no home, use /sethome");
-            return;
+        Coordinate home;
+        String homeName = "";
+
+        // Main home
+        if (args.length <= 1) {
+            home = KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).get("");
+            if (home == null) {
+                commandExecutor.displayChatMessage(ChatColors.RED + "You have no main home, use /sethome");
+                return;
+            }
+        } else {
+            if (args[1].isEmpty()){
+                commandExecutor.displayChatMessage(ChatColors.RED + "You can't use an empty home name");
+                commandExecutor.displayChatMessage(ChatColors.RED + "(You probably typed 2 spaces in the command)");
+                return;
+            }
+
+            home = KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).get(args[1]);
+            if (home == null) {
+                commandExecutor.displayChatMessage(ChatColors.RED + "You have no home named \"" + args[1] + "\"");
+                return;
+            }
+            homeName = args[1];
         }
 
-        if (homeCoordinate.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension)
-            commandExecutor.sendPlayerThroughPortalRegistered();
-
-        // Scrapped code attempting to fix the issue mention in the README.md Known Issues
+        // Scrapped code attempting to fix the issue mention in the README.md Known Issues section
         // It seems getBlockId() doesn't work when the chunk isnt loaded, defeating the purpose entirely
         // Also Math.round() didnt seem to work out, maybe checking a 2x2 area would be necessary?
         // Would probably be a better solution to just pre-load the chunks somehow before the player reaches unloaded chunks
@@ -56,7 +70,10 @@ public class Home extends CommandCompat{
 
         System.out.println("yOffset: " + yWithOffset);*/
 
-        commandExecutor.teleportRegistered(homeCoordinate.x, homeCoordinate.y, homeCoordinate.z);
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleported to home!");
+        if (home.dimension != ServerMod.toEntityPlayerMP(commandExecutor).dimension)
+            commandExecutor.sendPlayerThroughPortalRegistered();
+
+        commandExecutor.teleportRegistered(home.x, home.y, home.z);
+        commandExecutor.displayChatMessage(ChatColors.GREEN + "Teleported " + (homeName.isEmpty() ? "home" : "to " + homeName) + "!");
     }
 }

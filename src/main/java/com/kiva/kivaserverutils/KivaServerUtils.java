@@ -9,7 +9,10 @@ public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerNicknames = new HashMap<>();
     public static HashMap<String, String> playerPronouns = new HashMap<>();
     public static HashMap<String, String> playerNameColors = new HashMap<>();
-    public static HashMap<String, Coordinate> playerHomes = new HashMap<>();
+    // The home name "" is the main home of the player, and also for backward compatibility with KivaServerUtils versions below 1.6.3
+    //                   <Username,      <Home name, coordinate>>
+    public static HashMap<String, HashMap<String, Coordinate>> playerHomes = new HashMap<>();
+    public static Integer maxHomesPerPlayer = 10;
     public static Set<String> playersInRestrictiveMode;
     public static Set<String> playersExcludedFromRestrictiveMode;
     public static Set<String> playersMuted;
@@ -22,7 +25,7 @@ public class KivaServerUtils extends Mod {
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
     public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
-    public static String version = "1.6.1";
+    public static String version = "1.6.3";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
@@ -106,10 +109,10 @@ public class KivaServerUtils extends Mod {
             if ((x >= region.xMin) && (x <= region.xMax)
                     && (y >= region.yMin) && (y <= region.yMax)
                     && (z >= region.zMin) && (z <= region.zMax))
-                return new Pair<String, Boolean>(regionEntry.getKey() + ChatColors.GRAY + " (" + Coordinate.dimensionToString(region.dimension) + ")", true);
+                return new Pair<>(regionEntry.getKey() + ChatColors.GRAY + " (" + Coordinate.dimensionToString(region.dimension) + ")", true);
         }
 
-        return new Pair<String, Boolean>("", false);
+        return new Pair<>("", false);
     }
 
     @Override

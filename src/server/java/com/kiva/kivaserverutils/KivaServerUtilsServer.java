@@ -23,6 +23,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String playerPronounsFilename                 = KSUBasePath + "playerpronouns.properties";
     public static final String playerNameColorsFilename               = KSUBasePath + "playernamecolors.properties";
     public static final String playerHomesFilename                    = KSUBasePath + "playerhomes.txt";
+    public static final String maxHomesPerPlayerFilename              = KSUBasePath + "maxhomesperplayer.txt";
     public static final String playersInRestrictiveModeFilename       = KSUBasePath + "restrictivemodeplayers.txt";
     public static final String playersExcludedRestrictiveModeFilename = KSUBasePath + "restrictivemodeplayersexcluded.txt";
     public static final String playersMutedFilename                   = KSUBasePath + "playersmuted.txt";
@@ -36,13 +37,23 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         KivaServerUtils.playerNicknames                    = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNicknamesFilename);
         KivaServerUtils.playerPronouns                     = FileWriteAndLoadHashmap.loadHashmapFromFile(playerPronounsFilename);
         KivaServerUtils.playerNameColors                   = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNameColorsFilename);
-        KivaServerUtils.playerHomes                        = FileWriteAndLoadStringCoordinateHashmap.loadStringCoordinateHashmapFromFile(playerHomesFilename);
+        KivaServerUtils.playerHomes                        = FileWriteAndLoadPlayerHomes.loadPlayerHomesFromFile(playerHomesFilename);
+        KivaServerUtils.maxHomesPerPlayer                  = FileWriteAndLoadInteger.loadIntegerFromFile(maxHomesPerPlayerFilename);
+        if (KivaServerUtils.maxHomesPerPlayer == null) KivaServerUtils.maxHomesPerPlayer = 10; // Default value
         KivaServerUtils.playersInRestrictiveMode           = FileWriteAndLoadStringSet.loadStringSetFromFile(playersInRestrictiveModeFilename);
         KivaServerUtils.playersExcludedFromRestrictiveMode = FileWriteAndLoadStringSet.loadStringSetFromFile(playersExcludedRestrictiveModeFilename);
         KivaServerUtils.playersMuted                       = FileWriteAndLoadStringSet.loadStringSetFromFile(playersMutedFilename);
         KivaServerUtils.protectedRegions                   = FileWriteAndLoadStringProtectedRegionHashmap.loadStringProtectedRegionHashmapFromFile(protectedRegionsFilename);
         KivaServerUtils.spawnCommandLocation               = FileWriteAndLoadCoordinate.loadCoordinateFromFile(spawnCommandLocationFilename);
         KivaServerUtils.config                             = FileWriteAndLoadStringBooleanHashmap.loadStringBooleanHashmapFromFile(configFilename);
+
+        // Stupid, I know. This just makes sure /kivashowconfig shows all available config flags
+        KivaServerUtils.config.putIfAbsent("mobcapdisabled", false);
+        KivaServerUtils.config.putIfAbsent("explosionsbreakchests", false);
+        KivaServerUtils.config.putIfAbsent("homecommandsdisabled", false);
+        KivaServerUtils.config.putIfAbsent("tpacommandsdisabled", false);
+        KivaServerUtils.config.putIfAbsent("falldamagedisabled", false);
+        KivaServerUtils.config.putIfAbsent("restrictbydefault", false);
 
         if (possibleFirstRun) {
             System.out.println("+----------------------------------------------------------------------+");
@@ -101,8 +112,10 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new SpawnReset());
 
         CommandCompat.registerCommand(new Home());
-        CommandCompat.registerCommand(new HomeWhere());
+        CommandCompat.registerCommand(new Homes());
         CommandCompat.registerCommand(new SetHome());
+        CommandCompat.registerCommand(new DelHome());
+        CommandCompat.registerCommand(new MaxHomes());
 
         CommandCompat.registerCommand(new Mute());
         CommandCompat.registerCommand(new MuteList());
@@ -166,7 +179,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNicknames, playerNicknamesFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronouns, playerPronounsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNameColors, playerNameColorsFilename);
-        FileWriteAndLoadStringCoordinateHashmap.writeStringCoordinateHashmapToFile(KivaServerUtils.playerHomes, playerHomesFilename);
+        FileWriteAndLoadPlayerHomes.writePlayerHomesToFile(KivaServerUtils.playerHomes, playerHomesFilename);
+        FileWriteAndLoadInteger.writeIntegerToFile(KivaServerUtils.maxHomesPerPlayer, maxHomesPerPlayerFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersInRestrictiveMode, playersInRestrictiveModeFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersExcludedFromRestrictiveMode, playersExcludedRestrictiveModeFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersMuted, playersMutedFilename);

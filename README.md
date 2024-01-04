@@ -19,14 +19,17 @@
 <details>
 <summary>Home</summary>
 
-`/home`\
-Teleport to home (If home exists)
+`/home <optional home name>`\
+Teleport home. If no name is specified, it teleports you to your main home
 
-`/homewhere`\
-Show home location without teleporting to it
+`/homes <optional home name>`\
+List all your homes, if a name is provided it will show only that home
 
-`/sethome`\
-Sets your home location
+`/sethome <optional home name>`\
+Sets a home location
+
+`/delhome <optional home name>`\
+Deletes a home. If no name is specified, it deletes your main home
 </details>
 
 <details>
@@ -200,6 +203,9 @@ Enable/disable the `/tpa`, `/tpaccept`, `/tprevoke`, and `/tpdeny` commands
 `/falldamagedisabled <true or false>` (OP-only command)\
 Enable/disable fall damage
 
+`/maxhomes <number>` (OP-only command)\
+Sets the max amount of homes per player. Will not delete any existing homes. **Default: 10**
+
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 </details>
@@ -245,6 +251,8 @@ then doing `/home` can make you fall into an underground cave\
 This will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
 
 You can't place blocks beside protected regions when right-clicking a block in the region
+
+When `/maxhomes` is set to 1, all commands after the first sethome will fail and the player will have to manually `/delhome` every time
 
 # Other
 `/sethome` doesn't follow the naming convention `...set` because it's such a common command name in Minecraft servers

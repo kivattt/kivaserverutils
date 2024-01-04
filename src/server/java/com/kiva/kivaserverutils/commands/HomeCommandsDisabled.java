@@ -32,7 +32,7 @@ public class HomeCommandsDisabled extends CommandCompat{
         boolean value = args[1].equalsIgnoreCase("true");
 
         KivaServerUtils.config.put("homecommandsdisabled", value);
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "homecommandsdisabled now set to: " + ChatColors.RESET + value);
+        //commandExecutor.displayChatMessage(ChatColors.GREEN + "homecommandsdisabled now set to: " + ChatColors.RESET + value);
         ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "Home commands are now " + (value ? "disabled" : "enabled")));
     }
 }

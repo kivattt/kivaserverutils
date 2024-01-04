@@ -32,7 +32,7 @@ public class ExplosionsBreakChests extends CommandCompat{
         boolean value = args[1].equalsIgnoreCase("true");
 
         KivaServerUtils.config.put("explosionsbreakchests", value);
-        commandExecutor.displayChatMessage(ChatColors.GREEN + "explosionsbreakchests now set to: " + ChatColors.RESET + value);
+        //commandExecutor.displayChatMessage(ChatColors.GREEN + "explosionsbreakchests now set to: " + ChatColors.RESET + value);
         ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "Explosions will " + (value ? "now" : "no longer") + " break chests and crates"));
     }
 }
