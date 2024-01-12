@@ -23,7 +23,7 @@ public class MixinChunk {
     // TODO: Make DRY
     @Inject(method = "setBlockID", at = @At("HEAD"), cancellable = true)
     public void onSetBlockID(int x, int y, int z, int id, CallbackInfoReturnable<Boolean> cir) {
-        // Let's check this manually first to avoid creating & calculating the block coordinates
+        // Let's check this manually first to avoid calculating the block coordinates
         if (KivaServerUtils.protectedRegions.isEmpty())
             return;
 
