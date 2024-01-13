@@ -11,7 +11,7 @@ import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
 public class NickSet extends CommandCompat{
     public NickSet(){
-        super("nickset", true);
+        super("nickset", false);
     }
 
     public String commandSyntax(){
@@ -19,6 +19,11 @@ public class NickSet extends CommandCompat{
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
+        if (!commandExecutor.isOperator()){
+            commandExecutor.displayChatMessage(ChatColors.RED + "This command is for operators only, did you mean " + ChatColors.YELLOW + "/nick" + ChatColors.RED + "?");
+            return;
+        }
+
         if (args.length != 3){
             sendUsageMessage(this.commandSyntax(), commandExecutor);
             return;
