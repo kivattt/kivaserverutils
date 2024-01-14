@@ -42,7 +42,7 @@ Teleport to spawn (If spawn location specified)
 Show spawn location without teleporting to it
 
 `/spawnset` (OP-only command)\
-Set the location `/spawn` sends the player
+Sets the spawn location, and where `/spawn` sends the player
 
 `/spawnreset` (OP-only command)\
 Removes spawn location
