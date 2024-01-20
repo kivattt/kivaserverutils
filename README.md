@@ -108,6 +108,16 @@ When player supplied, an OP can force reset a players pronouns
 </details>
 
 <details>
+<summary>Pronouns color</summary>
+
+`/pronounscolor <color>` or `/pronounscolour <color>`\
+Change your pronouns color
+
+`/pronounscolorreset` or `/pronounscolourreset`\
+Resets your pronouns color
+</details>
+
+<details>
 <summary>Name colors</summary>
 
 `/namecolor <color>` or `/namecolour <color>`\

@@ -9,6 +9,7 @@ public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerNicknames = new HashMap<>();
     public static HashMap<String, String> playerPronouns = new HashMap<>();
     public static HashMap<String, String> playerNameColors = new HashMap<>();
+    public static HashMap<String, String> playerPronounColors = new HashMap<>();
     // The home name "" is the main home of the player, and also for backward compatibility with KivaServerUtils versions below 1.6.3
     //                   <Username,      <Home name, coordinate>>
     public static HashMap<String, HashMap<String, Coordinate>> playerHomes = new HashMap<>();
@@ -24,8 +25,10 @@ public class KivaServerUtils extends Mod {
     public static Coordinate spawnCommandLocation = null;
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
+    public static String defaultPlayerPronounColor = ChatColors.GREEN;
     public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
-    public static String version = "1.6.5";
+    public static LinkedHashMap<String, String> pronounColorChoicesNames = new LinkedHashMap<>();
+    public static String version = "1.6.6";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
@@ -38,8 +41,16 @@ public class KivaServerUtils extends Mod {
         return color == null ? defaultPlayerNameColor : color;
     }
 
+    public static String getPlayerPronounColor(final String playerName){
+        if (playerPronounColors == null)
+            return defaultPlayerPronounColor;
+
+        String color = playerPronounColors.get(playerName);
+        return color == null ? defaultPlayerPronounColor : color;
+    }
+
     public static Boolean getConfigValue(String key){
-        Boolean value = config.get(key);
+        final Boolean value = config.get(key);
         return value == null ? false : value;
     }
 

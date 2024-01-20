@@ -38,15 +38,12 @@ public abstract class MixinContainer{
             ItemStack var3 = (ItemStack)this.inventoryItemStacks.get(var1);
             if (!ItemStack.areItemStacksEqual(var3, itemStack)) {
                 String containerTypeName = "Unknown";
-                if (this.inventoryItemStacks.size() == 45) {
+                if (this.inventoryItemStacks.size() == 45)
                     containerTypeName = "Crate";
-                }
-                else if (this.inventoryItemStacks.size() == 63) {
+                else if (this.inventoryItemStacks.size() == 63)
                     containerTypeName = "Chest";
-                }
-                else if (this.inventoryItemStacks.size() == 90) {
+                else if (this.inventoryItemStacks.size() == 90)
                     containerTypeName = "Double chest";
-                }
 
                 final boolean fromHandleWindowClick = Thread.currentThread().getStackTrace()[2].getMethodName().equals("handleWindowClick"); // Least hacky foxloader mod
                 final boolean itemChangedWasPlayersInventory = var1 < this.inventoryItemStacks.size() && var1 >= this.inventoryItemStacks.size() - 36;
@@ -61,9 +58,8 @@ public abstract class MixinContainer{
                 var3 = itemStack == null ? null : itemStack.copy();
                 this.inventoryItemStacks.set(var1, var3);
 
-                for(int var4 = 0; var4 < this.crafters.size(); ++var4) {
+                for(int var4 = 0; var4 < this.crafters.size(); ++var4)
                     this.crafters.get(var4).updateCraftingInventorySlot((Container)(Object)this, var1, var3);
-                }
             }
         }
 

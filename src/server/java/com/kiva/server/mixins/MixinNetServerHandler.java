@@ -62,15 +62,16 @@ public abstract class MixinNetServerHandler {
     private String customChat$handleChat(String value, Packet3Chat packet3Chat){
         String pronouns = KivaServerUtils.playerPronouns.get(this.playerEntity.username);
         String nameColor = KivaServerUtils.getPlayerNameColor(this.playerEntity.username);
+        String pronounColor = KivaServerUtils.getPlayerPronounColor(this.playerEntity.username);
         if (this.mcServer.configManager.isOp(this.playerEntity.username) && KivaServerUtils.playerNameColors.get(this.playerEntity.username) == null)
             nameColor = ChatColors.RED;
 
         String playerNameUnlessNickname = KivaServerUtils.playerNicknames.get(this.playerEntity.username) == null ? this.playerEntity.username : KivaServerUtils.playerNicknames.get(this.playerEntity.username);
 
         if (pronouns != null) {
-            return "[" + ChatColors.GREEN + pronouns + ChatColors.RESET + "] <" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
-        }else {
-            return "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
+            return ChatColors.RESET + "[" + pronounColor + pronouns + ChatColors.RESET + "] <" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
+        } else {
+            return ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         }
     }
 

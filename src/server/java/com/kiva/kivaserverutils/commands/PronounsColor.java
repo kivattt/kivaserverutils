@@ -9,15 +9,15 @@ import java.util.Map;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
-public class NameColor extends CommandCompat{
-    public NameColor(){
-        super("namecolor", false, false, new String[]{"namecolour"});
+public class PronounsColor extends CommandCompat{
+    public PronounsColor(){
+        super("pronounscolor", false, false, new String[]{"pronounscolour"});
     }
 
     public String commandSyntax(final String commandUsed){
         StringBuilder ret = new StringBuilder(ChatColors.YELLOW + commandUsed + " <color>\n" + ChatColors.YELLOW + "Available colors:\n");
 
-        for (Map.Entry<String, String> entry : KivaServerUtils.nameColorChoicesNames.entrySet())
+        for (Map.Entry<String, String> entry : KivaServerUtils.pronounColorChoicesNames.entrySet())
             ret.append(entry.getValue()).append(entry.getKey()).append("\n");
 
         return ret.toString();
@@ -29,14 +29,14 @@ public class NameColor extends CommandCompat{
             return;
         }
 
-        String newColor = KivaServerUtils.nameColorChoicesNames.get(args[1].toLowerCase());
+        String newColor = KivaServerUtils.pronounColorChoicesNames.get(args[1].toLowerCase());
 
         if (newColor == null){
             commandExecutor.displayChatMessage(ChatColors.RED + "Invalid color");
             return;
         }
 
-        KivaServerUtils.playerNameColors.put(commandExecutor.getPlayerName(), newColor);
-        commandExecutor.displayChatMessage("Name color set to " + newColor + args[1].toLowerCase() + ChatColors.RESET + "!");
+        KivaServerUtils.playerPronounColors.put(commandExecutor.getPlayerName(), newColor);
+        commandExecutor.displayChatMessage("Pronouns color set to " + newColor + args[1].toLowerCase() + ChatColors.RESET + "!");
     }
 }

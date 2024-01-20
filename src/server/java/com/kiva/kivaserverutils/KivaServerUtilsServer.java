@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
@@ -22,6 +23,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String playerNicknamesFilename                = KSUBasePath + "playernicknames.properties";
     public static final String playerPronounsFilename                 = KSUBasePath + "playerpronouns.properties";
     public static final String playerNameColorsFilename               = KSUBasePath + "playernamecolors.properties";
+    public static final String playerPronounColorsFilename            = KSUBasePath + "playerpronouncolors.properties";
     public static final String playerHomesFilename                    = KSUBasePath + "playerhomes.txt";
     public static final String maxHomesPerPlayerFilename              = KSUBasePath + "maxhomesperplayer.txt";
     public static final String playersInRestrictiveModeFilename       = KSUBasePath + "restrictivemodeplayers.txt";
@@ -37,6 +39,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         KivaServerUtils.playerNicknames                    = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNicknamesFilename);
         KivaServerUtils.playerPronouns                     = FileWriteAndLoadHashmap.loadHashmapFromFile(playerPronounsFilename);
         KivaServerUtils.playerNameColors                   = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNameColorsFilename);
+        KivaServerUtils.playerPronounColors                = FileWriteAndLoadHashmap.loadHashmapFromFile(playerPronounColorsFilename);
         KivaServerUtils.playerHomes                        = FileWriteAndLoadPlayerHomes.loadPlayerHomesFromFile(playerHomesFilename);
         KivaServerUtils.maxHomesPerPlayer                  = FileWriteAndLoadInteger.loadIntegerFromFile(maxHomesPerPlayerFilename);
         if (KivaServerUtils.maxHomesPerPlayer == null) KivaServerUtils.maxHomesPerPlayer = 10; // Default value
@@ -66,29 +69,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
             System.out.println("+----------------------------------------------------------------------+");
         }
 
-        // Let me know if there's a better way to do this (Probably .toString with toLower())
-        nameColorChoicesNames.put("white", ChatColors.WHITE);
-        nameColorChoicesNames.put("gray", ChatColors.GRAY);
-        nameColorChoicesNames.put("darkgray", ChatColors.DARK_GRAY);
-        nameColorChoicesNames.put("black", ChatColors.BLACK);
-
-        nameColorChoicesNames.put("yellow", ChatColors.YELLOW);
-        nameColorChoicesNames.put("gold", ChatColors.GOLD);
-
-        nameColorChoicesNames.put("green", ChatColors.GREEN);
-        nameColorChoicesNames.put("darkgreen", ChatColors.DARK_GREEN);
-
-        nameColorChoicesNames.put("aqua", ChatColors.AQUA); // Default color
-        nameColorChoicesNames.put("darkaqua", ChatColors.DARK_AQUA);
-        nameColorChoicesNames.put("blue", ChatColors.BLUE);
-        nameColorChoicesNames.put("darkblue", ChatColors.DARK_BLUE);
-
-        nameColorChoicesNames.put("pink", ChatColors.LIGHT_PURPLE);
-        nameColorChoicesNames.put("purple", ChatColors.DARK_PURPLE);
-        nameColorChoicesNames.put("red", ChatColors.DARK_RED);
-
-        //colorNames.put("red", ChatColors.RED); // Reserved for operators as default color
-        //colorNames.put("rainbow", ChatColors.RAINBOW); // Bugged in ReIndev 2.8.1_04
+        nameColorChoicesNames = getNameAndPronounColorChoiceNames();
+        pronounColorChoicesNames = getNameAndPronounColorChoiceNames();
 
         CommandCompat.registerCommand(new Nick());
         CommandCompat.registerCommand(new NameOf());
@@ -105,6 +87,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new PronounsListAll());
         CommandCompat.registerCommand(new PronounsSet());
         CommandCompat.registerCommand(new PronounsReset());
+        CommandCompat.registerCommand(new PronounsColor());
+        CommandCompat.registerCommand(new PronounsColorReset());
 
         CommandCompat.registerCommand(new Spawn());
         CommandCompat.registerCommand(new SpawnWhere());
@@ -179,6 +163,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNicknames, playerNicknamesFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronouns, playerPronounsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNameColors, playerNameColorsFilename);
+        FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronounColors, playerPronounColorsFilename);
         FileWriteAndLoadPlayerHomes.writePlayerHomesToFile(KivaServerUtils.playerHomes, playerHomesFilename);
         FileWriteAndLoadInteger.writeIntegerToFile(KivaServerUtils.maxHomesPerPlayer, maxHomesPerPlayerFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersInRestrictiveMode, playersInRestrictiveModeFilename);
@@ -238,5 +223,34 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
             networkPlayer.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
 
         return isRestrictiveMode;
+    }
+
+    public LinkedHashMap<String, String> getNameAndPronounColorChoiceNames(){
+        LinkedHashMap<String, String> ret = new LinkedHashMap<>();
+
+        ret.put("white", ChatColors.WHITE);
+        ret.put("gray", ChatColors.GRAY);
+        ret.put("darkgray", ChatColors.DARK_GRAY);
+        ret.put("black", ChatColors.BLACK);
+
+        ret.put("yellow", ChatColors.YELLOW);
+        ret.put("gold", ChatColors.GOLD);
+
+        ret.put("green", ChatColors.GREEN);
+        ret.put("darkgreen", ChatColors.DARK_GREEN);
+
+        ret.put("aqua", ChatColors.AQUA); // Default name color
+        ret.put("darkaqua", ChatColors.DARK_AQUA);
+        ret.put("blue", ChatColors.BLUE);
+        ret.put("darkblue", ChatColors.DARK_BLUE);
+
+        ret.put("pink", ChatColors.LIGHT_PURPLE);
+        ret.put("purple", ChatColors.DARK_PURPLE);
+        ret.put("red", ChatColors.DARK_RED);
+
+        //ret.put("red", ChatColors.RED); // Reserved for operators as default color for names, disallowed for pronouns aswell to avoid confusion
+        //ret.put("rainbow", ChatColors.RAINBOW); // Bugged in ReIndev 2.8.1_04, 2.8.1_05
+
+        return ret;
     }
 }
