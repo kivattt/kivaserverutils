@@ -73,7 +73,7 @@ public abstract class MixinNetServerHandler {
         if (pronouns != null) {
             return ChatColors.RESET + "[" + pronounColor + pronouns + ChatColors.RESET + "] " + flag + ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         } else {
-            return ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
+            return ChatColors.RESET + flag + ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         }
     }
 

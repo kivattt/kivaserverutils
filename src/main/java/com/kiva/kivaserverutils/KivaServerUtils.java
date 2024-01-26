@@ -33,7 +33,7 @@ public class KivaServerUtils extends Mod {
     public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
     public static LinkedHashMap<String, String> flagColorChoicesNames = new LinkedHashMap<>();
     public static LinkedHashMap<String, String> pronounColorChoicesNames = new LinkedHashMap<>();
-    public static String version = "1.7.0";
+    public static String version = "1.7.1";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
