@@ -8,7 +8,6 @@ import com.kiva.kivaserverutils.Coordinate;
 import com.kiva.kivaserverutils.KivaServerUtils;
 import net.minecraft.src.server.packets.Packet3Chat;
 
-import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 import static com.kiva.kivaserverutils.KivaServerUtils.spawnCommandLocation;
 
 public class SpawnSet extends CommandCompat{

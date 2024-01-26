@@ -25,7 +25,7 @@ public class MaxHomes extends CommandCompat{
             return;
         }
 
-        Integer newMaxHomesPerPlayer = null;
+        Integer newMaxHomesPerPlayer;
         try {
             newMaxHomesPerPlayer = Integer.parseInt(args[1]);
         } catch (NumberFormatException e){

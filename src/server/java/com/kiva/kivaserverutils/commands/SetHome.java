@@ -9,8 +9,6 @@ import com.kiva.kivaserverutils.KivaServerUtils;
 
 import java.util.HashMap;
 
-import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
-
 public class SetHome extends CommandCompat{
     public SetHome(){
         super("sethome", false);
@@ -27,7 +25,6 @@ public class SetHome extends CommandCompat{
         }
 
         if (args.length > 2){
-            sendUsageMessage(commandSyntax(), commandExecutor);
             commandExecutor.displayChatMessage(ChatColors.RED + "You can't have spaces in your home name");
             return;
         }
@@ -58,7 +55,7 @@ public class SetHome extends CommandCompat{
             return;
         }
 
-        if (args.length >= 2) {
+        if (args.length == 2) {
             String homeName = args[1];
 
             if (homeName.length() > 15){

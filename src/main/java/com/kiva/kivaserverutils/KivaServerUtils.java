@@ -7,6 +7,7 @@ import java.util.*;
 
 public class KivaServerUtils extends Mod {
     public static HashMap<String, String> playerNicknames = new HashMap<>();
+    public static HashMap<String, String> playerFlags = new HashMap<>(); // Flags in chat messages
     public static HashMap<String, String> playerPronouns = new HashMap<>();
     public static HashMap<String, String> playerNameColors = new HashMap<>();
     public static HashMap<String, String> playerPronounColors = new HashMap<>();
@@ -18,6 +19,7 @@ public class KivaServerUtils extends Mod {
     public static Set<String> playersExcludedFromRestrictiveMode;
     public static Set<String> playersMuted;
 
+    public static HashMap<String, Coordinate> warps = new HashMap<>();
     public static HashMap<String, ArrayList<String>> tpaRequests = new HashMap<>(); // String to, List<String> from
     public static HashMap<String, ProtectedRegion> protectedRegions = new HashMap<>();
 
@@ -25,10 +27,13 @@ public class KivaServerUtils extends Mod {
     public static Coordinate spawnCommandLocation = null;
 
     public static String defaultPlayerNameColor = ChatColors.AQUA;
+    public static String flagDataCharacterToBeReplaced = "F"; // This is how the flag data is stored internally, replaced on-the-fly with the character below
+    public static String flagCharacter = "■";
     public static String defaultPlayerPronounColor = ChatColors.GREEN;
     public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
+    public static LinkedHashMap<String, String> flagColorChoicesNames = new LinkedHashMap<>();
     public static LinkedHashMap<String, String> pronounColorChoicesNames = new LinkedHashMap<>();
-    public static String version = "1.6.6";
+    public static String version = "1.7.0";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
@@ -47,6 +52,11 @@ public class KivaServerUtils extends Mod {
 
         String color = playerPronounColors.get(playerName);
         return color == null ? defaultPlayerPronounColor : color;
+    }
+
+    public static String getPlayerFlag(final String playerName){
+        String flag = KivaServerUtils.playerFlags.get(playerName);
+        return flag == null ? "" : flag.replaceAll(flagDataCharacterToBeReplaced, flagCharacter) + " "; // We need an extra space if the flag is present
     }
 
     public static Boolean getConfigValue(String key){

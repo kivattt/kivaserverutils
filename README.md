@@ -3,7 +3,7 @@
 ![Example chat](images/chatexample.png)
 
 ## Features
-- Improved player chat, with colors, nicknames and pronouns aswell as red usernames for OP players
+- Improved player chat, with colors, nicknames, pronouns, flags aswell as red usernames for OP players
 - Player teleport request commands
 - Adds spawn and home commands
 - Adds a stricter mob cap which allows mobs to be enabled for servers without lag
@@ -30,6 +30,9 @@ Sets a home location
 
 `/delhome <optional home name>`\
 Deletes a home. If no name is specified, it deletes your main home
+
+`/renamehome <old name> <new name>`\
+Renames a home
 </details>
 
 <details>
@@ -41,10 +44,10 @@ Teleport to spawn (If spawn location specified)
 `/spawnwhere`\
 Show spawn location without teleporting to it
 
-`/spawnset` (OP-only command)\
+`/spawnset` (OP-only)\
 Sets the spawn location, and where `/spawn` sends the player
 
-`/spawnreset` (OP-only command)\
+`/spawnreset` (OP-only)\
 Removes spawn location
 </details>
 
@@ -79,12 +82,22 @@ See the nicknames of everyone currently in the server
 `/nicklistall`\
 See everyone's nicknames
 
-`/nickset <player> <nickname>` (OP-only command)\
+`/nickset <player> <nickname>` (OP-only)\
 Force set a players nickname
 
 `/nickreset <optional player>`\
 Resets / removes your nickname\
 When player supplied, an OP can force reset a players nickname
+</details>
+
+<details>
+<summary>Name colors</summary>
+
+`/namecolor <color>` or `/namecolour <color>`\
+Change your name color
+
+`/namecolorreset` or `/namecolourreset`\
+Resets your name color
 </details>
 
 <details>
@@ -99,7 +112,7 @@ See the pronouns of everyone currently in the server
 `/pronounslistall`\
 See everyone's pronouns
 
-`/pronounsset <player> <pronouns>` (OP-only command)\
+`/pronounsset <player> <pronouns>` (OP-only)\
 Force set a players pronouns
 
 `/pronounsreset <optional player>`\
@@ -108,7 +121,7 @@ When player supplied, an OP can force reset a players pronouns
 </details>
 
 <details>
-<summary>Pronouns color</summary>
+<summary>Pronouns colors</summary>
 
 `/pronounscolor <color>` or `/pronounscolour <color>`\
 Change your pronouns color
@@ -118,19 +131,40 @@ Resets your pronouns color
 </details>
 
 <details>
-<summary>Name colors</summary>
+<summary>Flags</summary>
 
-`/namecolor <color>` or `/namecolour <color>`\
-Change your name color
+`/flag <colors...>`\
+Set a flag in your chat messages\
+Example: `/flag lightred orange yellow green blue purple`
 
-`/namecolorreset` or `/namecolourreset`\
-Resets your name color
+`/flagreset`\
+Resets your flag (removes it)
+</details>
+
+<details>
+<summary>Warps</summary>
+
+`/warp <name>`\
+Teleports you to the location
+
+`/warps <optional name>`\
+Lists all warps on the server, if a name is provided it will only show that warp
+
+`/warpset <name>` (OP-only)\
+Adds a new warp at your location
+
+`/warpdel <name>` (OP-only)\
+Deletes a warp
+
+`/warprename <old name> <new name>` (OP-only)\
+Renames a warp
+
 </details>
 
 <details>
 <summary>Chat mute</summary>
 
-`/mute <player>` (OP-only command)\
+`/mute <player>` (OP-only)\
 Toggles preventing the player from sending chat messages\
 Commands are still allowed while muted, except for /me and /tell
 
@@ -144,25 +178,25 @@ Lists all muted players
 <details>
 <summary>Restrictive mode</summary>
 
-`/restrict <player>` (OP-only command)\
+`/restrict <player>` (OP-only)\
 Toggles [restrictive mode](#restrictive-mode)
 
-`/restrictlist` (OP-only command)\
+`/restrictlist` (OP-only)\
 Lists players in [restrictive mode](#restrictive-mode) currently in the server
 
-`/restrictlistall` (OP-only command)\
+`/restrictlistall` (OP-only)\
 Lists all players in [restrictive mode](#restrictive-mode)
 
-`/restrictbydefault <true or false>` (OP-only command)\
+`/restrictbydefault <true or false>` (OP-only)\
 All players will be in [restrictive mode](#restrictive-mode) when `true` (`/restrictlist` is ignored), unless specifically excluded with `/restrictexclude`
 
-`/restrictexclude <player>` (OP-only command)\
+`/restrictexclude <player>` (OP-only)\
 Excludes player from restrictive mode when `/restrictbydefault` is true
 
-`/restrictexcludelist` (OP-only command)\
+`/restrictexcludelist` (OP-only)\
 List players excluded from restrictive mode currently in the server
 
-`/restrictexcludelistall` (OP-only command)\
+`/restrictexcludelistall` (OP-only)\
 Lists all players excluded from restrictive mode
 </details>
 
@@ -198,29 +232,32 @@ See a regions coordinates and dimension
 <details>
 <summary>Configuration</summary>
 
-`/mobcapdisabled <true or false>` (OP-only command)\
+`/mobcapdisabled <true or false>` (OP-only)\
 Enable or disable the mobcap (setting mobcapdisabled to true will introduce lag!)
 
-`/explosionsbreakchests <true or false>` (OP-only command)\
+`/explosionsbreakchests <true or false>` (OP-only)\
 Set if explosions break chests and crates
 
-`/homecommandsdisabled <true or false>` (OP-only command)\
-Enable/disable the `/home` and `/sethome` commands
+`/homecommandsdisabled <true or false>` (OP-only)\
+Enable/disable the `/home`, `/sethome` commands
 
-`/tpacommandsdisabled <true or false>` (OP-only command)\
-Enable/disable the `/tpa`, `/tpaccept`, `/tprevoke`, and `/tpdeny` commands
+`/tpacommandsdisabled <true or false>` (OP-only)\
+Enable/disable the `/tpa`, `/tpaccept`, `/tprevoke`, `/tpdeny` commands
 
-`/falldamagedisabled <true or false>` (OP-only command)\
+`/warpcommandsdisabled <true or false>` (OP-only)\
+Enabled/disable the `/warp`, `/warps`, `/warpset`, `/warpdel`, `/warprename` commands
+
+`/falldamagedisabled <true or false>` (OP-only)\
 Enable/disable fall damage
 
-`/maxhomes <number>` (OP-only command)\
+`/maxhomes <number>` (OP-only)\
 Sets the max amount of homes per player. Will not delete any existing homes. **Default: 10**
 
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 </details>
 
-`/teleport <x> <y> <z>` (OP-only command)\
+`/teleport <x> <y> <z>` (OP-only)\
 Teleport to coordinate
 
 `/kivaversion`\
@@ -263,6 +300,9 @@ This will also affect other commands like `/spawn`, since it's really an underly
 You can't place blocks beside protected regions when right-clicking a block in the region
 
 When `/maxhomes` is set to 1, all commands after the first sethome will fail and the player will have to manually `/delhome` every time
+
+# Reporting bugs
+Either add me on Discord where my username is `kivattt`, or open an issue 
 
 # Other
 `/sethome` doesn't follow the naming convention `...set` because it's such a common command name in Minecraft servers

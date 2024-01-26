@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FileWriteAndLoadCoordinate {
-    public static void writeCoordinateToFile(final Coordinate coordinate, final String filename){
+public class FileWriteAndLoadSpawn {
+    public static void writeSpawnToFile(final Coordinate coordinate, final String filename){
         if (coordinate == null) {
             File f = new File(filename);
             if (!f.exists())
                 return;
 
-            System.out.println("No spawn set, attempting to delete " + filename);
+            System.out.println("No spawn set, deleting " + filename);
 
             if (f.delete())
                 System.out.println("Deleted " + filename + " successfully");
@@ -28,19 +28,18 @@ public class FileWriteAndLoadCoordinate {
             fileWriter.write(coordinate.toString());
             fileWriter.close();
         } catch(IOException e){
-            System.err.println("Failed to write coordinate to file: " + filename);
+            System.err.println("Failed to write spawn coordinate to file: " + filename);
             e.printStackTrace();
         }
     }
 
-    public static Coordinate loadCoordinateFromFile(final String filename){
+    public static Coordinate loadSpawnFromFile(final String filename){
         Coordinate ret = new Coordinate();
 
         try {
             ret.fromString(Files.readAllLines(Paths.get(filename)).get(0));
         } catch(IOException | IndexOutOfBoundsException e) {
-            // Removed since this is expected when no spawn is set, to avoid confusion
-            //System.err.println("Failed to load coordinate from file: " + filename);
+            // No error msg since it's expected when no spawn is set, to avoid confusion
             return null;
         }
 

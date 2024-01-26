@@ -1,4 +1,4 @@
-package com.kiva.server.mixins;
+package com.kiva.kivaserverutils.server.mixins;
 
 import com.kiva.kivaserverutils.KivaServerUtils;
 import net.minecraft.src.game.entity.EnumCreatureType;

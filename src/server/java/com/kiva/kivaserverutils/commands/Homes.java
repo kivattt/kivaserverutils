@@ -23,17 +23,12 @@ public class Homes extends CommandCompat{
             return;
         }
 
-        if (KivaServerUtils.playerHomes == null || KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()) == null){
+        if (KivaServerUtils.playerHomes == null
+                || KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()) == null
+                || KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).isEmpty()) {
             commandExecutor.displayChatMessage(ChatColors.RED + "You have no homes, use /sethome");
             return;
         }
-
-        if (KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).isEmpty()){
-            commandExecutor.displayChatMessage(ChatColors.RED + "You have no homes, use /sethome");
-            return;
-        }
-
-        // TODO: Color formatting for coordinate and dimension in the chat msgs
 
         if (args.length >= 2){
             if (args[1].isEmpty()){
@@ -47,6 +42,7 @@ public class Homes extends CommandCompat{
                 commandExecutor.displayChatMessage(ChatColors.RED + "You have no home named \"" + args[1] + "\"");
                 return;
             }
+
             commandExecutor.displayChatMessage(ChatColors.GREEN + args[1] + ChatColors.RESET + " : " + home.toStringXYZInt() + " in the " + Coordinate.dimensionToString(home.dimension));
             return;
         }

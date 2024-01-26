@@ -11,9 +11,8 @@ public class FileWriteAndLoadStringProtectedRegionHashmap {
     public static void writeStringProtectedRegionHashmapToFile(final HashMap<String, ProtectedRegion> hashMap, final String filename){
         try{
             FileWriter fileWriter = new FileWriter(filename);
-            for (Map.Entry<String, ProtectedRegion> entry : hashMap.entrySet()) {
+            for (Map.Entry<String, ProtectedRegion> entry : hashMap.entrySet())
                 fileWriter.write(entry.getKey() + "=" + entry.getValue().toWriteableDataString() + "\n");
-            }
             fileWriter.close();
         } catch (IOException e) {
             System.err.println("Failed to write string & protected region hashmap to file: " + filename);

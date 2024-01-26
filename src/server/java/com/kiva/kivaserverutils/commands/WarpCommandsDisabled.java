@@ -9,13 +9,13 @@ import net.minecraft.src.server.packets.Packet3Chat;
 
 import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
 
-public class HomeCommandsDisabled extends CommandCompat{
-    public HomeCommandsDisabled(){
-        super("homecommandsdisabled", true);
+public class WarpCommandsDisabled extends CommandCompat{
+    public WarpCommandsDisabled(){
+        super("warpcommandsdisabled", true);
     }
 
     public String commandSyntax(){
-        return ChatColors.YELLOW + "/homecommandsdisabled <true or false>";
+        return ChatColors.YELLOW + "/warpcommandsdisabled <true or false>";
     }
 
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor){
@@ -31,7 +31,7 @@ public class HomeCommandsDisabled extends CommandCompat{
 
         boolean value = args[1].equalsIgnoreCase("true");
 
-        KivaServerUtils.config.put("homecommandsdisabled", value);
-        ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "Home commands are now " + (value ? "disabled" : "enabled")));
+        KivaServerUtils.config.put("warpcommandsdisabled", value);
+        ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "Warp commands are now " + (value ? "disabled" : "enabled")));
     }
 }

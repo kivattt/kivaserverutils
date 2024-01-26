@@ -1,4 +1,4 @@
-package com.kiva.server.mixins;
+package com.kiva.kivaserverutils.server.mixins;
 
 import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
@@ -62,14 +62,16 @@ public abstract class MixinNetServerHandler {
     private String customChat$handleChat(String value, Packet3Chat packet3Chat){
         String pronouns = KivaServerUtils.playerPronouns.get(this.playerEntity.username);
         String nameColor = KivaServerUtils.getPlayerNameColor(this.playerEntity.username);
+        String flag = KivaServerUtils.getPlayerFlag(this.playerEntity.username);
         String pronounColor = KivaServerUtils.getPlayerPronounColor(this.playerEntity.username);
+
         if (this.mcServer.configManager.isOp(this.playerEntity.username) && KivaServerUtils.playerNameColors.get(this.playerEntity.username) == null)
             nameColor = ChatColors.RED;
 
         String playerNameUnlessNickname = KivaServerUtils.playerNicknames.get(this.playerEntity.username) == null ? this.playerEntity.username : KivaServerUtils.playerNicknames.get(this.playerEntity.username);
 
         if (pronouns != null) {
-            return ChatColors.RESET + "[" + pronounColor + pronouns + ChatColors.RESET + "] <" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
+            return ChatColors.RESET + "[" + pronounColor + pronouns + ChatColors.RESET + "] " + flag + ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         } else {
             return ChatColors.RESET + "<" + nameColor + playerNameUnlessNickname + ChatColors.RESET + "> " + packet3Chat.message.trim();
         }
@@ -93,7 +95,7 @@ public abstract class MixinNetServerHandler {
             ci.cancel();
         }
 
-        String signText = "";
+        StringBuilder signText = new StringBuilder();
         for (String line : packet130UpdateSign.signLines) {
             boolean discard = line.length() > 15;
 
@@ -105,7 +107,7 @@ public abstract class MixinNetServerHandler {
             }
 
             if (!discard)
-                signText += line + "\n";
+                signText.append(line).append("\n");
         }
 
         ServerMod.getGameInstance().logWarning(playerEntity.username + " placed/edited sign @ x:" + packet130UpdateSign.xPosition + ", y:" + packet130UpdateSign.yPosition + ", z:" + packet130UpdateSign.zPosition + " with text:\n" + signText);

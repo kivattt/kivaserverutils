@@ -21,6 +21,7 @@ import java.util.Map;
 public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String KSUBasePath = "mods/KivaServerUtils/";
     public static final String playerNicknamesFilename                = KSUBasePath + "playernicknames.properties";
+    public static final String playerFlagsFilename                    = KSUBasePath + "playerflags.properties";
     public static final String playerPronounsFilename                 = KSUBasePath + "playerpronouns.properties";
     public static final String playerNameColorsFilename               = KSUBasePath + "playernamecolors.properties";
     public static final String playerPronounColorsFilename            = KSUBasePath + "playerpronouncolors.properties";
@@ -31,12 +32,14 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
     public static final String playersMutedFilename                   = KSUBasePath + "playersmuted.txt";
     public static final String protectedRegionsFilename               = KSUBasePath + "protectedregions.txt";
     public static final String spawnCommandLocationFilename           = KSUBasePath + "spawncommandlocation.txt";
+    public static final String warpsLocationFilename                  = KSUBasePath + "warps.txt";
     public static final String configFilename                         = KSUBasePath + "config.txt";
 
     public static boolean possibleFirstRun = false;
 
     public void onInit(){
         KivaServerUtils.playerNicknames                    = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNicknamesFilename);
+        KivaServerUtils.playerFlags                        = FileWriteAndLoadHashmap.loadHashmapFromFile(playerFlagsFilename);
         KivaServerUtils.playerPronouns                     = FileWriteAndLoadHashmap.loadHashmapFromFile(playerPronounsFilename);
         KivaServerUtils.playerNameColors                   = FileWriteAndLoadHashmap.loadHashmapFromFile(playerNameColorsFilename);
         KivaServerUtils.playerPronounColors                = FileWriteAndLoadHashmap.loadHashmapFromFile(playerPronounColorsFilename);
@@ -47,13 +50,15 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         KivaServerUtils.playersExcludedFromRestrictiveMode = FileWriteAndLoadStringSet.loadStringSetFromFile(playersExcludedRestrictiveModeFilename);
         KivaServerUtils.playersMuted                       = FileWriteAndLoadStringSet.loadStringSetFromFile(playersMutedFilename);
         KivaServerUtils.protectedRegions                   = FileWriteAndLoadStringProtectedRegionHashmap.loadStringProtectedRegionHashmapFromFile(protectedRegionsFilename);
-        KivaServerUtils.spawnCommandLocation               = FileWriteAndLoadCoordinate.loadCoordinateFromFile(spawnCommandLocationFilename);
+        KivaServerUtils.spawnCommandLocation               = FileWriteAndLoadSpawn.loadSpawnFromFile(spawnCommandLocationFilename);
+        KivaServerUtils.warps                              = FileWriteAndLoadWarps.loadWarpsFromFile(warpsLocationFilename);
         KivaServerUtils.config                             = FileWriteAndLoadStringBooleanHashmap.loadStringBooleanHashmapFromFile(configFilename);
 
         // Stupid, I know. This just makes sure /kivashowconfig shows all available config flags
         KivaServerUtils.config.putIfAbsent("mobcapdisabled", false);
         KivaServerUtils.config.putIfAbsent("explosionsbreakchests", false);
         KivaServerUtils.config.putIfAbsent("homecommandsdisabled", false);
+        KivaServerUtils.config.putIfAbsent("warpcommandsdisabled", false);
         KivaServerUtils.config.putIfAbsent("tpacommandsdisabled", false);
         KivaServerUtils.config.putIfAbsent("falldamagedisabled", false);
         KivaServerUtils.config.putIfAbsent("restrictbydefault", false);
@@ -70,6 +75,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         }
 
         nameColorChoicesNames = getNameAndPronounColorChoiceNames();
+        flagColorChoicesNames = getFlagColorChoiceNames();
         pronounColorChoicesNames = getNameAndPronounColorChoiceNames();
 
         CommandCompat.registerCommand(new Nick());
@@ -81,6 +87,9 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
 
         CommandCompat.registerCommand(new NameColor());
         CommandCompat.registerCommand(new NameColorReset());
+
+        CommandCompat.registerCommand(new Flag());
+        CommandCompat.registerCommand(new FlagReset());
 
         CommandCompat.registerCommand(new Pronouns());
         CommandCompat.registerCommand(new PronounsList());
@@ -99,6 +108,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         CommandCompat.registerCommand(new Homes());
         CommandCompat.registerCommand(new SetHome());
         CommandCompat.registerCommand(new DelHome());
+        CommandCompat.registerCommand(new RenameHome());
         CommandCompat.registerCommand(new MaxHomes());
 
         CommandCompat.registerCommand(new Mute());
@@ -133,6 +143,13 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
 
         CommandCompat.registerCommand(new FallDamageDisabled());
 
+        CommandCompat.registerCommand(new Warp());
+        CommandCompat.registerCommand(new Warps());
+        CommandCompat.registerCommand(new WarpSet());
+        CommandCompat.registerCommand(new WarpDel());
+        CommandCompat.registerCommand(new WarpRename());
+        CommandCompat.registerCommand(new WarpCommandsDisabled());
+
         System.out.println("KivaServerUtils initialized");
     }
 
@@ -161,6 +178,7 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         }
 
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNicknames, playerNicknamesFilename);
+        FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerFlags, playerFlagsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronouns, playerPronounsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerNameColors, playerNameColorsFilename);
         FileWriteAndLoadHashmap.writeHashmapToFile(KivaServerUtils.playerPronounColors, playerPronounColorsFilename);
@@ -170,7 +188,8 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersExcludedFromRestrictiveMode, playersExcludedRestrictiveModeFilename);
         FileWriteAndLoadStringSet.writeStringSetToFile(KivaServerUtils.playersMuted, playersMutedFilename);
         FileWriteAndLoadStringProtectedRegionHashmap.writeStringProtectedRegionHashmapToFile(KivaServerUtils.protectedRegions, protectedRegionsFilename);
-        FileWriteAndLoadCoordinate.writeCoordinateToFile(KivaServerUtils.spawnCommandLocation, spawnCommandLocationFilename);
+        FileWriteAndLoadSpawn.writeSpawnToFile(KivaServerUtils.spawnCommandLocation, spawnCommandLocationFilename);
+        FileWriteAndLoadWarps.writeWarpsToFile(KivaServerUtils.warps, warpsLocationFilename);
         FileWriteAndLoadStringBooleanHashmap.writeStringBooleanHashmapToFile(KivaServerUtils.config, configFilename);
     }
 
@@ -234,13 +253,13 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         ret.put("black", ChatColors.BLACK);
 
         ret.put("yellow", ChatColors.YELLOW);
-        ret.put("gold", ChatColors.GOLD);
+        ret.put("orange", ChatColors.GOLD); // "gold" is unhinged, let's make it orange
 
         ret.put("green", ChatColors.GREEN);
         ret.put("darkgreen", ChatColors.DARK_GREEN);
 
-        ret.put("aqua", ChatColors.AQUA); // Default name color
-        ret.put("darkaqua", ChatColors.DARK_AQUA);
+        ret.put("lightblue", ChatColors.AQUA); // Default name color
+        ret.put("cyan", ChatColors.DARK_AQUA);
         ret.put("blue", ChatColors.BLUE);
         ret.put("darkblue", ChatColors.DARK_BLUE);
 
@@ -249,8 +268,18 @@ public class KivaServerUtilsServer extends KivaServerUtils implements ServerMod{
         ret.put("red", ChatColors.DARK_RED);
 
         //ret.put("red", ChatColors.RED); // Reserved for operators as default color for names, disallowed for pronouns aswell to avoid confusion
+
         //ret.put("rainbow", ChatColors.RAINBOW); // Bugged in ReIndev 2.8.1_04, 2.8.1_05
 
+        return ret;
+    }
+
+    public LinkedHashMap<String, String> getFlagColorChoiceNames(){
+        LinkedHashMap<String, String> ret = getNameAndPronounColorChoiceNames();
+
+        // I chose to use "lightred"=RED instead of making "red"=RED, "darkred"=DARK_RED
+        // So that it would be consistent with the /namecolor, /pronounscolor commands
+        ret.put("lightred", ChatColors.RED);
         return ret;
     }
 }

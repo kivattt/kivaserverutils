@@ -16,7 +16,7 @@ public class Home extends CommandCompat{
         return ChatColors.YELLOW + "/home <optional name>";
     }
 
-    // TODO Make DRY
+    // TODO Make DRY (Amount of times read and ignored: 1)
     public void onExecute(final String[] args, final NetworkPlayer commandExecutor) {
         if (KivaServerUtils.getConfigValue("homecommandsdisabled")){
             commandExecutor.displayChatMessage(ChatColors.RED + "Home commands are disabled");

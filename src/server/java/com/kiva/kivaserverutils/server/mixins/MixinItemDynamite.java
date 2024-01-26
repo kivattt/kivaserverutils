@@ -1,4 +1,4 @@
-package com.kiva.server.mixins;
+package com.kiva.kivaserverutils.server.mixins;
 
 import net.minecraft.src.game.entity.player.EntityPlayer;
 import net.minecraft.src.game.item.ItemDynamite;

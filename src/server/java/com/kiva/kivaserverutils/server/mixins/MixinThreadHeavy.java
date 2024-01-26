@@ -1,4 +1,4 @@
-package com.kiva.server.mixins;
+package com.kiva.kivaserverutils.server.mixins;
 
 import net.minecraft.server.ThreadHeavy;
 import org.spongepowered.asm.mixin.Mixin;

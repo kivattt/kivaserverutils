@@ -6,8 +6,6 @@ import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
 
-import static com.kiva.kivaserverutils.UsageMessage.sendUsageMessage;
-
 public class RestrictList extends CommandCompat {
     public RestrictList(){super("restrictlist", true);}
 

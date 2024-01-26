@@ -39,11 +39,11 @@ public class DelHome extends CommandCompat{
         Coordinate home = KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).get(homeName);
 
         if (home == null){
-            commandExecutor.displayChatMessage(ChatColors.RED + "You have no " + (homeName.isEmpty() ? "main home" : "home named \"" + homeName + "\""));
+            commandExecutor.displayChatMessage(ChatColors.RED + "You have no " + (homeName.isEmpty() ? "main home" : "home named " + ChatColors.RESET + homeName));
             return;
         }
 
-        commandExecutor.displayChatMessage(ChatColors.RED + (homeName.isEmpty() ? "Main home" : "Home \"" + homeName + "\"") + " deleted");
+        commandExecutor.displayChatMessage(ChatColors.RED + (homeName.isEmpty() ? "Main home" : "Home " + ChatColors.RESET + homeName) + ChatColors.RED + " deleted");
         commandExecutor.displayChatMessage(ChatColors.YELLOW + "It was located at " + ChatColors.GREEN + "[" + ChatColors.YELLOW + home.toStringXYZInt() + ChatColors.GREEN + "]" + ChatColors.YELLOW + " in the " + Coordinate.dimensionToString(home.dimension));
         KivaServerUtils.playerHomes.get(commandExecutor.getPlayerName()).remove(homeName);
     }

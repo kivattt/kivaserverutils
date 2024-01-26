@@ -1,8 +1,7 @@
-package com.kiva.server.mixins;
+package com.kiva.kivaserverutils.server.mixins;
 
 import com.fox2code.foxloader.loader.ServerMod;
 import com.kiva.kivaserverutils.KivaServerUtils;
-import com.kiva.kivaserverutils.KivaServerUtilsServer;
 import net.minecraft.src.game.entity.Entity;
 import net.minecraft.src.game.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;

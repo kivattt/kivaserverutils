@@ -6,7 +6,6 @@ import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
 import com.kiva.kivaserverutils.KivaServerUtils;
 import com.kiva.kivaserverutils.NicknameToUsername;
-import net.minecraft.src.game.entity.Entity;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class TPAccept extends CommandCompat {
         EntityPlayerMP me = ServerMod.toEntityPlayerMP(commandExecutor);
         EntityPlayerMP player = ServerMod.getGameInstance().configManager.getPlayerEntity(username);
         if (player == null) {
-            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + player.username + ChatColors.RED + " not found");
+            commandExecutor.displayChatMessage(ChatColors.RED + "Player " + ChatColors.RESET + username + ChatColors.RED + " not found");
             return false;
         }
 
