@@ -9,6 +9,7 @@
 - Adds a stricter mob cap which allows mobs to be enabled for servers without lag
 - Improved logging for chests and crates, see items being taken/added
 - Fixes 100% CPU usage on 1 core
+- Effectively removes the speed limit on sending chunks
 - Explosions (TNT, Creepers, Dynamite etc.) don't break chests/crates. (Configurable!)
 - Improved logging for players throwing dynamite
 - [Region protection](https://www.youtube.com/watch?v=HaCgemz3Sus) to prevent griefing of specific areas

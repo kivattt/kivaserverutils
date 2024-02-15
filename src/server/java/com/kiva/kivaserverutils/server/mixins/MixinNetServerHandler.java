@@ -96,18 +96,20 @@ public abstract class MixinNetServerHandler {
         }
 
         StringBuilder signText = new StringBuilder();
-        for (String line : packet130UpdateSign.signLines) {
-            boolean discard = line.length() > 15;
 
-            for (int i = 0; i < line.length(); i++){
-                if (ChatAllowedCharacters.allowedCharacters.indexOf(line.charAt(i)) < 0) {
-                    discard = true;
-                    break;
-                }
+        for (int i = 0; i < Math.min(4, packet130UpdateSign.signLines.length); i++){
+            String line = packet130UpdateSign.signLines[i];
+            if (line.length() > 15)
+                continue;
+
+            for (int j = 0; j < line.length(); j++){
+                if (ChatAllowedCharacters.allowedCharacters.indexOf(line.charAt(j)) < 0)
+                    continue;
+
+                signText.append(line.charAt(j));
             }
 
-            if (!discard)
-                signText.append(line).append("\n");
+            signText.append("\n");
         }
 
         ServerMod.getGameInstance().logWarning(playerEntity.username + " placed/edited sign @ x:" + packet130UpdateSign.xPosition + ", y:" + packet130UpdateSign.yPosition + ", z:" + packet130UpdateSign.zPosition + " with text:\n" + signText);
