@@ -12,6 +12,7 @@
     "MixinExplosion",
     "MixinItemDynamite",
     "MixinNetServerHandler",
+    "MixinNetworkManager",
     "MixinSpawnerAnimals",
     "MixinThreadHeavy",
     "MixinWorld"
