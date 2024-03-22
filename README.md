@@ -231,6 +231,14 @@ See a regions coordinates and dimension
 </details>
 
 <details>
+<summary>Other</summary>
+
+`/afk`\
+Tells everyone on the server you're AFK until you move again
+
+</details>
+
+<details>
 <summary>Configuration</summary>
 
 `/mobcapdisabled <true or false>` (OP-only)\
