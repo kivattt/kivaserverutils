@@ -27,6 +27,8 @@ public abstract class MixinNetServerHandler {
     @Shadow
     public MinecraftServer mcServer;
 
+    @Shadow private boolean hasMoved;
+
     @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
     public void handleMutedPlayers(Packet3Chat packet3Chat, CallbackInfo ci){
         if (!KivaServerUtils.isPlayerMuted(playerEntity.username))
@@ -142,6 +144,38 @@ public abstract class MixinNetServerHandler {
         if (KivaServerUtils.isPlayerInRestrictiveMode(playerEntity.username)) {
             playerEntity.displayChatMessage(KivaServerUtils.notifyPlayerIsInRestrictiveMode);
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "handleFlying", at = @At("HEAD"))
+    public void onPlayerMoved(Packet10Flying packet10Flying, CallbackInfo ci) {
+        // This is just a pitch & yaw packet, ignore it
+        if (packet10Flying instanceof Packet12PlayerLook)
+            return;
+
+        // Seems like this is controlled serverside, even though the client can send it
+        if (!packet10Flying.moving)
+            return;
+
+        // Seems to be for the initial join stage where the client sends position packets like x 0 z 0
+        if (!this.hasMoved)
+            return;
+
+        if (!KivaServerUtils.afkPlayers.containsKey(playerEntity.username))
+            return;
+
+        // Atleast 1 second has to pass to un-AFK
+        if (System.currentTimeMillis() - KivaServerUtils.afkPlayers.get(playerEntity.username) < 1000)
+            return;
+
+        double dX = Math.abs(packet10Flying.xPosition - playerEntity.posX);
+        double dY = Math.abs(packet10Flying.yPosition - playerEntity.posY);
+        double dZ = Math.abs(packet10Flying.zPosition - playerEntity.posZ);
+
+        final double threshold = 0.01;
+        if (dX > threshold || dY > threshold || dZ > threshold) {
+            KivaServerUtils.afkPlayers.remove(playerEntity.username);
+            ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(ChatColors.GRAY + playerEntity.username + " is no longer AFK"));
         }
     }
 

@@ -32,7 +32,6 @@ public class MobcapDisabled extends CommandCompat{
         boolean value = args[1].equalsIgnoreCase("true");
 
         KivaServerUtils.config.put("mobcapdisabled", value);
-        //commandExecutor.displayChatMessage(ChatColors.GREEN + "mobcapdisabled now set to: " + ChatColors.RESET + value);
         ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED + "Mob cap disabled" : ChatColors.GREEN + "Mob cap enabled")));
     }
 }

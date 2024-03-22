@@ -32,7 +32,6 @@ public class TPACommandsDisabled extends CommandCompat{
         boolean value = args[1].equalsIgnoreCase("true");
 
         KivaServerUtils.config.put("tpacommandsdisabled", value);
-        //commandExecutor.displayChatMessage(ChatColors.GREEN + "tpacommandsdisabled now set to: " + ChatColors.RESET + value);
         ServerMod.getGameInstance().configManager.sendPacketToAllPlayers(new Packet3Chat(KivaServerUtils.KSUBroadcastPrefix + (value ? ChatColors.RED : ChatColors.GREEN) + "TPA commands are now " + (value ? "disabled" : "enabled")));
     }
 }

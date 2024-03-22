@@ -35,6 +35,7 @@ public class TPAccept extends CommandCompat {
 
         /* /tpaccept - Accept all teleport requests */
         if (args.length == 1){
+            // TODO: Check if this actually works for multiple tpaRequestsToMe
             // No foreach to prevent "An internal error happened" message
             for (int i = 0; i < tpaRequestsToMe.size(); i++){
                 if (acceptTPARequestFromPlayer(commandExecutor, tpaRequestsToMe.get(i)))
