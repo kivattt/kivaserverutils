@@ -23,12 +23,12 @@ public class MixinEntityPlayerMP {
 
     @ModifyConstant(method = "onUpdateEntity", constant = @Constant(intValue = 24))
     private int removeChunkSendingLimits1(int value){
-        return Integer.MAX_VALUE;
+        return 200;
     }
 
     @ModifyConstant(method = "onUpdateEntity", constant = @Constant(intValue = 40))
     private int removeChunkSendingLimits2(int value){
-        return Integer.MAX_VALUE;
+        return 100;
     }
 
     // Scrapped code to add nicknames to death msgs, this might come in a later update to KivaServerUtils
