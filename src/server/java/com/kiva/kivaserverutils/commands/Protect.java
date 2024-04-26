@@ -1,5 +1,6 @@
 package com.kiva.kivaserverutils.commands;
 
+import com.fox2code.foxloader.loader.ServerMod;
 import com.fox2code.foxloader.network.ChatColors;
 import com.fox2code.foxloader.network.NetworkPlayer;
 import com.fox2code.foxloader.registry.CommandCompat;
@@ -7,7 +8,7 @@ import com.kiva.kivaserverutils.KivaServerUtils;
 import com.kiva.kivaserverutils.ProtectedRegion;
 import net.minecraft.src.game.entity.player.EntityPlayerMP;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,17 +34,8 @@ public class Protect extends CommandCompat {
         return ChatColors.RED + "Usage: " + commandNameUsed.toLowerCase() + " " + getArgumentsForAction(action);
     }
 
-    // Weird, I know
     public static List<String> getActionList(){
-        List <String> ret = new ArrayList<>();
-        ret.add("list");
-        ret.add("set");
-        ret.add("remove");
-        ret.add("removeall");
-        ret.add("rename");
-        ret.add("expandheight");
-        ret.add("info");
-        return ret;
+        return Arrays.asList("list", "set", "remove", "removeall", "rename", "expandheight", "info");
     }
 
     public void sendHelpMsg(final String commandNameUsed, final NetworkPlayer commandExecutor){
@@ -237,8 +229,8 @@ public class Protect extends CommandCompat {
                     return;
                 }
 
-                KivaServerUtils.protectedRegions.get(name).yMin = 0;
-                KivaServerUtils.protectedRegions.get(name).yMax = 2047; // World height limit
+                KivaServerUtils.protectedRegions.get(name).yMin = ServerMod.getGameInstance().getWorldManager(((EntityPlayerMP) commandExecutor).dimension).lowestY;
+                KivaServerUtils.protectedRegions.get(name).yMax = ServerMod.getGameInstance().getWorldManager(((EntityPlayerMP) commandExecutor).dimension).highestY - 1;
 
                 commandExecutor.displayChatMessage(ChatColors.GREEN + "Protected region " + name + " now spans all height");
                 break;

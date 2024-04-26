@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Mixin(NetServerHandler.class)
@@ -38,11 +38,7 @@ public abstract class MixinNetServerHandler {
 
         // Prevent /me or /tell commands
         // TODO: Clean this up to use some proper command system?
-        List<String> commandsDisallowedWhileMuted = new ArrayList<>();
-        commandsDisallowedWhileMuted.add("me");
-        commandsDisallowedWhileMuted.add("tell");
-        commandsDisallowedWhileMuted.add("w");   // Alias for /tell
-        commandsDisallowedWhileMuted.add("msg"); // Alias for /tell
+        List<String> commandsDisallowedWhileMuted = Arrays.asList("me", "tell", "w", "msg");
 
         for (String command : commandsDisallowedWhileMuted){
             if (msgTrim.toLowerCase().startsWith("/" + command + " ")){
