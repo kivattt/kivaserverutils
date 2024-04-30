@@ -31,7 +31,7 @@ public abstract class MixinContainer{
      */
     @Overwrite
     public void updateInventory(){
-        String containerItemsChangedLog = "";
+        StringBuilder containerItemsChangedLog = new StringBuilder();
 
         for(int var1 = 0; var1 < this.inventorySlots.size(); ++var1) {
             ItemStack itemStack = this.inventorySlots.get(var1).getStack();
@@ -52,8 +52,9 @@ public abstract class MixinContainer{
                 if (!eitherIsNull)
                     disqualifyForEqual = (var3.itemID == itemStack.itemID && var3.stackSize == itemStack.stackSize);
 
-                if (fromHandleWindowClick && !itemChangedWasPlayersInventory && (!containerTypeName.equals("Unknown")) && !disqualifyForEqual && KivaServerUtils.handleWindowClickLatestPlayerUsername != null && this.windowId != 0)
-                    containerItemsChangedLog = containerItemsChangedLog + "\n" + KivaServerUtils.handleWindowClickLatestPlayerUsername +  " in " + containerTypeName + ", item " + ((var3 == null) ? "null" : var3) + " replaced with " + ((itemStack == null) ? "null" : itemStack);
+                if (!itemChangedWasPlayersInventory && (!containerTypeName.equals("Unknown")) && !disqualifyForEqual && KivaServerUtils.handleWindowClickLatestPlayerUsername != null && this.windowId != 0) {
+                    containerItemsChangedLog.append("\n").append(KivaServerUtils.handleWindowClickLatestPlayerUsername).append(" in ").append(containerTypeName).append(", item ").append((var3 == null) ? "null" : var3).append(" replaced with ").append((itemStack == null) ? "null" : itemStack);
+                }
 
                 var3 = itemStack == null ? null : itemStack.copy();
                 this.inventoryItemStacks.set(var1, var3);
@@ -63,7 +64,7 @@ public abstract class MixinContainer{
             }
         }
 
-        if (!containerItemsChangedLog.isEmpty()) {
+        if (containerItemsChangedLog.length() > 0) {
             final Logger logger = Logger.getLogger("Minecraft");
             logger.warning("Inventory update:" + containerItemsChangedLog);
         }
