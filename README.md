@@ -5,7 +5,7 @@
 ## Features
 - Improved player chat, with colors, nicknames, pronouns, flags aswell as red usernames for OP players
 - Player teleport request commands
-- Adds spawn and home commands
+- Adds spawn, home and warp commands
 - Adds a stricter mob cap which allows mobs to be enabled for servers without lag
 - Improved logging for chests and crates, see items being taken/added
 - Fixes 100% CPU usage on 1 core
@@ -305,6 +305,8 @@ Players can spawn randomly around the spawn set by `/spawnset`, so it's not alwa
 Doing `/sethome` then covering up the home location with blocks, unloading the chunk its in,
 then doing `/home` can make you fall into an underground cave\
 This will also affect other commands like `/spawn`, since it's really an underlying issue with teleporting
+
+A crate/drawer which has items inside, when taken out of a chest, will not be logged
 
 You can't place blocks beside protected regions when right-clicking a block in the region
 
