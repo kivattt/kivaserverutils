@@ -31,10 +31,24 @@ public abstract class MixinNetServerHandler {
 
     @Inject(method = "handleChat", at = @At("HEAD"), cancellable = true)
     public void handleMutedPlayers(Packet3Chat packet3Chat, CallbackInfo ci){
+        String msgTrim = packet3Chat.message.trim();
+
+        if (KivaServerUtils.commandCooldownSeconds != 0d && !playerEntity.isOperator() && msgTrim.startsWith("/")) {
+            Long lastTime = KivaServerUtils.playerLastCommandTimeMilliseconds.get(playerEntity.username);
+            if (lastTime != null) {
+                long timeElapsedSinceLastCommand = System.currentTimeMillis() - lastTime;
+                double tryAgainInSeconds = KivaServerUtils.commandCooldownSeconds - timeElapsedSinceLastCommand / 1000d;
+                if (timeElapsedSinceLastCommand < KivaServerUtils.commandCooldownSeconds * 1000) {
+                    playerEntity.displayChatMessage(ChatColors.YELLOW + "Command cooldown, try again in " + String.format("%.1f", tryAgainInSeconds) + "s");
+                    ci.cancel();
+                    return;
+                }
+            }
+            KivaServerUtils.playerLastCommandTimeMilliseconds.put(playerEntity.username, System.currentTimeMillis());
+        }
+
         if (!KivaServerUtils.isPlayerMuted(playerEntity.username))
             return;
-
-        String msgTrim = packet3Chat.message.trim();
 
         // Prevent /me or /tell commands
         // TODO: Clean this up to use some proper command system?

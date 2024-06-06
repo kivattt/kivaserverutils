@@ -262,6 +262,9 @@ Enable/disable fall damage
 `/maxhomes <number>` (OP-only)\
 Sets the max amount of homes per player. Will not delete any existing homes. **Default: 10**
 
+`/commandcooldown <seconds>` (OP-only)\
+Sets command cooldown for non-OP players, if it's 0 (default) there is none
+
 `/kivashowconfig`\
 Shows config for KivaServerUtils
 </details>

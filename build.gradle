@@ -1,16 +1,17 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url 'https://cdn.fox2code.com/maven' }
         maven { url 'https://jitpack.io/' }
     }
     dependencies {
-        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.43')
+        classpath('com.fox2code.FoxLoader:dev:1.2.46')
     }
 }
 
 apply plugin: 'foxloader.dev'
 
-version '1.7.6'
+version '1.7.7'
 
 foxloader {
     // forceReload = true

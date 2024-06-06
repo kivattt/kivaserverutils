@@ -19,6 +19,9 @@ public class KivaServerUtils extends Mod {
     public static Set<String> playersExcludedFromRestrictiveMode;
     public static Set<String> playersMuted;
 
+    public static HashMap<String, Long> playerLastCommandTimeMilliseconds = new HashMap<>();
+    public static Double commandCooldownSeconds = 0d;
+
     public static HashMap<String, Coordinate> warps = new HashMap<>();
     public static HashMap<String, ArrayList<String>> tpaRequests = new HashMap<>(); // String to, ArrayList<String> from
     public static HashMap<String, Long> afkPlayers = new HashMap<>(); // Username, time of /afk (milliseconds since epoch)
@@ -34,7 +37,7 @@ public class KivaServerUtils extends Mod {
     public static LinkedHashMap<String, String> nameColorChoicesNames = new LinkedHashMap<>();
     public static LinkedHashMap<String, String> flagColorChoicesNames = new LinkedHashMap<>();
     public static LinkedHashMap<String, String> pronounColorChoicesNames = new LinkedHashMap<>();
-    public static String version = "1.7.6";
+    public static String version = "1.7.7";
     public static String KSUBroadcastPrefix = ChatColors.DARK_GRAY + "[" + ChatColors.GRAY + "KSU" + ChatColors.DARK_GRAY + "] " + ChatColors.RESET;
 
     public static String handleWindowClickLatestPlayerUsername;
